@@ -193,3 +193,10 @@ button:hover {
   left: 50%;
   transform: translateX(-50%);
 }
+
+.two-columns {
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  justify-content: space-evenly;
+}

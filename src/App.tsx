@@ -46,7 +46,7 @@ function App() {
       {loadInstanceModal && (
         <Modal setOpenModal={setLoadInstanceModal}>
           <>
-            <h2>Enter instances</h2>
+            <h2>Enter your own instance</h2>
             <div className="instances-main">
               <textarea
                 className="c-r default-text"
@@ -58,20 +58,29 @@ function App() {
               ></textarea>
               <div className="instances-example">
                 <div className="instances-title">
-                  <h3>Example of instance input</h3>
+                  <h3>Some examples of instance input</h3>
                   <p>(Adjacency Matrix)</p>
                 </div>
-                <div className="default-text">
-                  {INITIAL_MATRIX.split("\n").map((line, index) => (
-                    <p key={index}>{line}</p>
-                  ))}
+                <div className="two-columns default-text">
+                  <div>
+                    {INITIAL_MATRIX.split("\n").map((line, index) => (
+                      <p key={index}>{line}</p>
+                    ))}
+                  </div>
+                  <div>
+                    <p>0 1 0 0 0</p>
+                    <p>1 0 1 1 0</p>
+                    <p>0 1 0 1 1</p>
+                    <p>0 1 1 0 1</p>
+                    <p>0 0 1 1 0</p>
+                  </div>
                 </div>
 
                 <div className="instructions">
                   <p>
-                    A delay of <strong>{TIME_SLEEP}</strong>ms has been added in between the steps by default!
+                    A delay of <strong>{TIME_SLEEP}</strong>ms has been added in between the steps by default! <br />
+                    (in order to show the details of each step which I will add soon)
                   </p>
-                  <p>Still have to display details of each steps</p>
                 </div>
               </div>
             </div>
