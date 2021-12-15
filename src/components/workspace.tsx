@@ -36,12 +36,15 @@ const Workspace = () => {
       greedyData.edges.forEach((edge) => myP5.drawEdge(p5, edge, greedyData.vertices));
       greedyData.vertices.forEach((vertice) => myP5.drawVertice(p5, greedyData.vertices.length, vertice));
 
+      // get first/starting node with highest degree
       const degrees = graphService.getNodesDegree(greedyData.edges, greedyData.vertices);
       const maxDegreeNode = graphService.getMaxDegreeNode(degrees);
 
       if (greedyData.vertices[maxDegreeNode].color === WHITE_COLOR) greedyData.vertices[maxDegreeNode].color = COLORS[0];
 
+      // keep checkin if a node with no color (white color) exists -> means some node hasn't got a number yet
       if (graphService.canContinue(greedyData.vertices)) {
+        // select next optimum node
         const nextNode = greedy.greedyChoice(greedyData.edges, greedyData.vertices);
 
         // check available colors of current neighbors

@@ -1,4 +1,4 @@
-import { IDsat, IEdge, INodeDegree, IVertice } from "../lib/interfaces";
+import { IDsat, IEdge, IVertice } from "../lib/interfaces";
 import { GraphService } from "../services/graphService";
 
 export class Greedy {
@@ -7,6 +7,7 @@ export class Greedy {
   greedyChoice = (edges: IEdge[], vertices: IVertice[]) => {
     const unvisitedNodes = this.graphService.getUnvisitedNodes(vertices);
 
+    // get number of colors for each neighbor
     const DSATList: IDsat[] = [];
     unvisitedNodes.forEach((unvisitedNode) => {
       DSATList.push({
@@ -26,6 +27,7 @@ export class Greedy {
       }
     });
 
+    // find the DSAT with highest node degree -> our next node
     const dsatNodeDegrees = this.graphService.getNodesDegree(edges, maxDsatNodes);
     const maxDsatNode = this.graphService.getMaxDegreeNode(dsatNodeDegrees);
 
