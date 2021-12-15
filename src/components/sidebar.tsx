@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { IEdge, IVertice } from "../lib/interfaces";
-import { getEdges, getVertices } from "../lib/parser";
+import { GraphService } from "../services/graphService";
 import { setGreedy } from "../store/actions";
 
 const Sidebar = () => {
@@ -9,8 +9,11 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const readInstances = () => {
-    const vertices: IVertice[] = getVertices(instancesInput);
-    const edges: IEdge[] = getEdges(instancesInput);
+    const graphService = GraphService.getInstance();
+    graphService.setGraphInput(instancesInput);
+
+    const vertices: IVertice[] = graphService.getVertices();
+    const edges: IEdge[] = graphService.getEdges();
 
     dispatch(setGreedy({ vertices, edges }));
   };

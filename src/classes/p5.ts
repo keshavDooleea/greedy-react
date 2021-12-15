@@ -1,5 +1,5 @@
 import p5Types from "p5";
-import { IEdge, IGreedy, IVertice } from "../lib/interfaces";
+import { IEdge, IVertice } from "../lib/interfaces";
 
 export class MyP5 {
   private width: number;
