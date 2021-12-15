@@ -1,12 +1,13 @@
 export interface IEdge {
-  start: Number;
-  end: Number;
+  start: number;
+  end: number;
 }
 
 export interface IVertice {
-  nb: Number;
-  x?: Number;
-  y?: Number;
+  nb: number;
+  x?: number;
+  y?: number;
+  color: string;
 }
 
 export interface IGreedy {
@@ -14,13 +15,17 @@ export interface IGreedy {
   edges: IEdge[];
 }
 
+export interface INodeDegree {
+  nodeNb: number;
+  degree: number;
+}
+
+export interface IDsat {
+  nodeNb: number;
+  dsat: number;
+}
+
 export interface IAction<T> {
   type: String;
   data: T;
 }
-
-// 0 0 0 1 0
-// 0 0 1 1 1
-// 0 1 0 1 0
-// 1 1 1 0 0
-// 0 1 0 0 0

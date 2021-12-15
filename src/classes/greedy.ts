@@ -1,14 +1,34 @@
-import { NO_COLOR } from "../lib/constants";
-import { IEdge, IGreedy } from "../lib/interfaces";
+import { IDsat, IEdge, INodeDegree, IVertice } from "../lib/interfaces";
+import { GraphService } from "../services/graphService";
 
 export class Greedy {
-  private colorsList: number[];
-  private greedyData: IGreedy;
+  private graphService = GraphService.getInstance();
 
-  constructor(greedyData: IGreedy) {
-    this.greedyData = greedyData;
+  greedyChoice = (edges: IEdge[], vertices: IVertice[]) => {
+    const unvisitedNodes = this.graphService.getUnvisitedNodes(vertices);
 
-    // 1. initialise C with total nb of nodes of value -1
-    this.colorsList = Array.from({ length: this.greedyData.vertices.length }, () => Number(NO_COLOR));
-  }
+    const DSATList: IDsat[] = [];
+    unvisitedNodes.forEach((unvisitedNode) => {
+      DSATList.push({
+        nodeNb: unvisitedNode.nb,
+        dsat: this.graphService.calculateDSAT(edges, vertices, unvisitedNode),
+      });
+    });
+
+    // get max DSAT
+    const maxDsatNb = this.graphService.getMaxDSAT(DSATList);
+    const maxDsatNodes: IVertice[] = [];
+
+    // get all nodes with highest DSAT
+    DSATList.forEach((dsat) => {
+      if (dsat.dsat === maxDsatNb) {
+        maxDsatNodes.push(vertices[dsat.nodeNb]);
+      }
+    });
+
+    const dsatNodeDegrees = this.graphService.getNodesDegree(edges, maxDsatNodes);
+    const maxDsatNode = this.graphService.getMaxDegreeNode(dsatNodeDegrees);
+
+    return maxDsatNode;
+  };
 }
