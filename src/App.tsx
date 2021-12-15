@@ -6,14 +6,16 @@ import Navbar from "./components/navbar";
 import Sidebar from "./components/sidebar";
 import Workspace from "./components/workspace";
 import { INITIAL_MATRIX, TIME_SLEEP } from "./lib/constants";
-import { IEdge, IOutput, IVertice } from "./lib/interfaces";
+import { IEdge, IVertice } from "./lib/interfaces";
 import { GraphService } from "./services/graphService";
-import { setGreedy, showOutput } from "./store/actions";
+import { OutputService } from "./services/outputService";
+import { setGreedy } from "./store/actions";
 
 function App() {
   const [loadInstanceModal, setLoadInstanceModal] = useState<boolean>(false);
   const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
   const graphService = GraphService.getInstance();
+  const outputService = OutputService.getInstance();
 
   const [instancesInput, setInstancesInput] = useState<String>(INITIAL_MATRIX);
   const dispatch = useDispatch();
@@ -26,13 +28,7 @@ function App() {
     const edges: IEdge[] = graphService.getEdges();
 
     dispatch(setGreedy({ vertices, edges }));
-
-    // show in terminal
-    const output: IOutput = {
-      title: "Generating graph",
-      details: [{ text: `Drawing ${vertices.length} nodes` }, { text: `Drawing ${edges.length} edges` }],
-    };
-    dispatch(showOutput(output));
+    outputService.generateGraph(vertices, edges);
   };
 
   return (

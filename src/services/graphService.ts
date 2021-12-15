@@ -2,7 +2,6 @@ import { WHITE_COLOR } from "../lib/constants";
 import { IDsat, IEdge, INodeDegree, IVertice } from "../lib/interfaces";
 
 export class GraphService {
-  private colorIndex = 0;
   private graphInput: String = "";
   private static graphInstance: GraphService | null;
 
