@@ -89,7 +89,7 @@ const Workspace = () => {
       } else {
         const output: IOutput = {
           title: `Finished coloration`,
-          details: [],
+          details: [{ text: `Used ${graphService.getNbOfColorsUsed(greedyData.vertices)} colors` }],
         };
         dispatch(showOutput(output));
         p5.noLoop();

@@ -116,4 +116,20 @@ export class GraphService {
   getMaxDSAT = (dsatList: IDsat[]): number => {
     return dsatList.reduce((acc, dsat) => (acc = acc > dsat.dsat ? acc : dsat.dsat), 0);
   };
+
+  getNbOfColorsUsed = (vertices: IVertice[]) => {
+    const colorsMap: Map<string, number> = new Map();
+
+    vertices.forEach((vertice) => {
+      let color = colorsMap.get(vertice.color);
+      colorsMap.set(vertice.color, color === undefined ? 1 : color++);
+    });
+
+    let sum = 0;
+    for (let value of colorsMap.values()) {
+      sum += value as number;
+    }
+
+    return sum;
+  };
 }
