@@ -28,6 +28,7 @@ function App() {
     // show in terminal
     const output: IOutput = {
       title: "Generating graph",
+      details: [{ text: `Drawing ${vertices.length} nodes` }, { text: `Drawing ${edges.length} edges` }],
     };
     dispatch(showOutput(output));
   };

@@ -32,5 +32,10 @@ export interface IAction<T> {
 
 export interface IOutput {
   title: string;
-  details?: string[];
+  details?: IOutputDetails[];
+}
+
+export interface IOutputDetails {
+  text: string;
+  color?: string;
 }

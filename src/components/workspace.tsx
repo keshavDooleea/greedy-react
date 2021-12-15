@@ -1,17 +1,20 @@
 import Sketch from "react-p5";
 import p5Types from "p5";
 import { useState } from "react";
-import { RootStateOrAny, useSelector } from "react-redux";
-import { IGreedy } from "../lib/interfaces";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { IGreedy, IOutput, IOutputDetails } from "../lib/interfaces";
 import { MyP5 } from "../classes/p5";
 import { Greedy } from "../classes/greedy";
 import { GraphService } from "../services/graphService";
 import { COLORS, WHITE_COLOR } from "../lib/constants";
+import { showOutput } from "../store/actions";
+import { OutputColors } from "../lib/enum";
 
 const Workspace = () => {
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
   const greedyData: IGreedy = useSelector((state: RootStateOrAny) => state.greedyReducer);
+  const dispatch = useDispatch();
   const graphService = GraphService.getInstance();
   let myP5: MyP5;
   let greedy: Greedy;
@@ -32,7 +35,6 @@ const Workspace = () => {
     if (greedyData.vertices != null) {
       if (!greedy) greedy = new Greedy();
 
-      // draw base nodes and vertices
       greedyData.edges.forEach((edge) => myP5.drawEdge(p5, edge, greedyData.vertices));
       greedyData.vertices.forEach((vertice) => myP5.drawVertice(p5, greedyData.vertices.length, vertice));
 
@@ -40,7 +42,17 @@ const Workspace = () => {
       const degrees = graphService.getNodesDegree(greedyData.edges, greedyData.vertices);
       const maxDegreeNode = graphService.getMaxDegreeNode(degrees);
 
-      if (greedyData.vertices[maxDegreeNode].color === WHITE_COLOR) greedyData.vertices[maxDegreeNode].color = COLORS[0];
+      if (greedyData.vertices[maxDegreeNode].color === WHITE_COLOR) {
+        const degreesText: IOutputDetails[] = [];
+        degrees.forEach((degree) => degreesText.push({ text: `Node #${degree.nodeNb} has a degree of ${degree.degree}`, color: degree.degree === maxDegreeNode ? OutputColors.main : OutputColors.black }));
+
+        const output: IOutput = {
+          title: `Coloring first chosen node: #${greedyData.vertices[maxDegreeNode].nb}`,
+          details: degreesText,
+        };
+        dispatch(showOutput(output));
+        greedyData.vertices[maxDegreeNode].color = COLORS[0];
+      }
 
       // keep checkin if a node with no color (white color) exists -> means some node hasn't got a number yet
       if (graphService.canContinue(greedyData.vertices)) {

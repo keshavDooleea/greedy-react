@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { RootStateOrAny, useSelector } from "react-redux";
+import { OutputColors } from "../lib/enum";
 import { IOutput } from "../lib/interfaces";
 
 interface ISidebarProps {
@@ -21,7 +22,11 @@ const Sidebar = ({ setLoadInstanceModal }: ISidebarProps) => {
           {outputs.map((output, index) => (
             <div key={index} className="output-item">
               <h4>{output.title}</h4>
-              {/* <p>possbile nodes: 2, 2</p> */}
+              {output.details?.map((detail, detailIndex) => (
+                <p key={detailIndex} style={{ color: detail.color === null ? OutputColors.black : detail.color }}>
+                  {detail.text}
+                </p>
+              ))}
             </div>
           ))}
         </div>
