@@ -93,7 +93,7 @@ function App() {
             <h2>Information on this Website</h2>
 
             <div className="middle">
-              <p>This visualisation was made on React JS using the library P5.js on the 15th of December 2021</p>
+              <p>This visualization was made on React JS (with TypeScript) using the library P5.js and Redux Store on the 15th of December 2021</p>
 
               <p>explain Greedy..</p>
             </div>
