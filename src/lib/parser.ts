@@ -1,8 +1,16 @@
-import { IEdge } from "./interfaces";
+import { IEdge, IVertice } from "./interfaces";
 
-const getVertices = (input: String): Number[] => {
+const getVertices = (input: String): IVertice[] => {
   const nbLines = input.split("\n").length;
-  return Array.from({ length: nbLines }, (_, index) => index);
+  const vertices: IVertice[] = [];
+
+  for (let i = 0; i < nbLines; i++) {
+    vertices.push({
+      nb: i,
+    });
+  }
+
+  return vertices;
 };
 
 const isDuplicateEdge = (newEdge: IEdge, edges: IEdge[]): Boolean => {

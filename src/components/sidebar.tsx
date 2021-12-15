@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { IEdge } from "../lib/interfaces";
+import { IEdge, IVertice } from "../lib/interfaces";
 import { getEdges, getVertices } from "../lib/parser";
 import { setGreedy } from "../store/actions";
 
@@ -9,7 +9,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const readInstances = () => {
-    const vertices: Number[] = getVertices(instancesInput);
+    const vertices: IVertice[] = getVertices(instancesInput);
     const edges: IEdge[] = getEdges(instancesInput);
 
     dispatch(setGreedy({ vertices, edges }));
