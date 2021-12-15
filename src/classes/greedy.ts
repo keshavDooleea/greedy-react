@@ -1,6 +1,5 @@
-import { COLORS, TIME_SLEEP } from "../lib/constants";
+import { COLORS } from "../lib/constants";
 import { IDsat, IEdge, IVertice } from "../lib/interfaces";
-import { sleep } from "../lib/utils";
 import { GraphService } from "../services/graphService";
 
 export class Greedy {
@@ -41,8 +40,6 @@ export class Greedy {
     const neighbors = this.graphService.getNeighbors(edges, vertices[nextNode]);
     const neighborColors = neighbors.map((neighbor) => vertices[neighbor].color);
     let smallestColorIndex = -1;
-
-    await sleep(TIME_SLEEP);
 
     // find smallest K out of nb of nodes
     for (let i = 0; i < COLORS.length; i++) {
