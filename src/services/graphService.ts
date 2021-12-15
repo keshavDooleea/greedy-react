@@ -18,6 +18,8 @@ export class GraphService {
     this.graphInput = input;
   };
 
+  getGraphInput = (): String => this.graphInput;
+
   // prevent adding the same edge twice
   isDuplicateEdge = (newEdge: IEdge, edges: IEdge[]): Boolean => {
     const foundEdges = edges.filter((edge) => (edge.start === newEdge.start && edge.end === newEdge.end) || (edge.start === newEdge.end && edge.end === newEdge.start));

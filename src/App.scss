@@ -1,61 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap");
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "Oswald", sans-serif;
 }
 
-$sidebar: 400px;
+$sidebar: 350px;
+$navbarHeight: 9vh;
 
 body {
   width: 100vw;
   height: 100vh;
-  background-color: #3d3d3d;
-  color: #b4b4b4;
   overflow: hidden;
 }
 
 .c-r {
-  border-radius: 6px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .App {
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   overflow: hidden;
+}
+
+.navbar {
+  width: 100vw;
+  height: $navbarHeight;
+  display: flex;
+  color: #9b97b5;
+
+  .navbar-main {
+    padding: 0 30px;
+    height: 70%;
+    background-color: #f0f1f6;
+    margin: auto;
+    text-align: center;
+  }
+}
+
+main {
+  width: 100vw;
+  height: calc(100vh - #{$navbarHeight});
+  display: flex;
 }
 
 .sidebar {
   width: $sidebar;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 10px;
 
-  textarea {
-    margin: 30px 0;
-    width: 100%;
-    height: 80vh;
-    resize: none;
-    padding: 5px;
-    font-size: 1.3rem;
-    background-color: rgba($color: #fff, $alpha: 0.7);
+  .sidebar-main {
+    width: 90%;
+    height: 97%;
+    background-color: #f0f1f6;
+    display: flex;
+    flex-direction: column;
 
-    &:focus {
-      outline: none;
+    header {
+      margin-top: 10px;
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
     }
-  }
 
-  button {
-    padding: 5px;
-    border: none;
-    font-size: 1.3rem;
+    .output-container {
+      width: 1;
+      flex: 1;
+      margin-top: 15px;
+    }
   }
 }
 
 .workspace {
   width: calc(100vw - #{$sidebar});
+  height: 100%;
+}
+
+button {
+  font-size: 18px;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #ecf3fe;
+  border: 1px solid #3080eb;
+  transition: 0.2s background-color, 0.2s color;
+  border-radius: 7px;
+}
+
+button:hover {
+  color: white;
+  background-color: #3080eb;
+}
+
+.modal-main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
   height: 100vh;
-  background-color: rgba($color: #fff, $alpha: 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal-inner {
+    width: 70vw;
+    height: 80vh;
+    background-color: #ecf3fe;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+
+    textarea {
+      font-family: initial;
+      width: 90%;
+      flex: 1;
+      margin: 20px 0;
+      resize: none;
+      padding: 5px;
+      font-size: 1.3rem;
+      background-color: #fff;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      padding: 5px;
+      font-size: 1.3rem;
+    }
+  }
 }

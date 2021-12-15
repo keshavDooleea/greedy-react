@@ -1,30 +1,20 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { IEdge, IVertice } from "../lib/interfaces";
-import { GraphService } from "../services/graphService";
-import { setGreedy } from "../store/actions";
+import { Dispatch, SetStateAction } from "react";
 
-const Sidebar = () => {
-  const [instancesInput, setInstancesInput] = useState<String>("");
-  const dispatch = useDispatch();
+interface ISidebarProps {
+  setLoadInstanceModal: Dispatch<SetStateAction<boolean>>;
+}
 
-  const readInstances = () => {
-    const graphService = GraphService.getInstance();
-    graphService.setGraphInput(instancesInput);
-
-    const vertices: IVertice[] = graphService.getVertices();
-    const edges: IEdge[] = graphService.getEdges();
-
-    dispatch(setGreedy({ vertices, edges }));
-  };
-
+const Sidebar = ({ setLoadInstanceModal }: ISidebarProps) => {
   return (
     <div className="sidebar">
-      <h2>Enter instances</h2>
-      <textarea className="c-r" onChange={(e) => setInstancesInput(e.target.value)}></textarea>
-      <button className="c-r" onClick={readInstances}>
-        Execute
-      </button>
+      <div className="sidebar-main c-r">
+        <header>
+          <button onClick={() => setLoadInstanceModal(true)}>Load Instances</button>
+          <button>Info</button>
+        </header>
+
+        <div className="output-container"></div>
+      </div>
     </div>
   );
 };
