@@ -83,13 +83,12 @@ main {
     .output-container {
       width: 1;
       flex: 1;
-      margin-top: 15px;
       padding: 4px;
       overflow-y: auto;
       scroll-behavior: smooth;
 
-      .output-item {
-        margin-bottom: 18px;
+      .output-mt {
+        margin-top: 18px;
       }
     }
   }

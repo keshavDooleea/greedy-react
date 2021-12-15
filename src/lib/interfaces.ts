@@ -31,11 +31,7 @@ export interface IAction<T> {
 }
 
 export interface IOutput {
-  title: string;
-  details?: IOutputDetails[];
-}
-
-export interface IOutputDetails {
   text: string;
   color?: string;
+  isTitle: boolean;
 }

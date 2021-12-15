@@ -2,7 +2,7 @@ import Sketch from "react-p5";
 import p5Types from "p5";
 import { useState } from "react";
 import { RootStateOrAny, useSelector } from "react-redux";
-import { IGreedy, INodeDegree, IOutput, IOutputDetails } from "../lib/interfaces";
+import { IGreedy, INodeDegree } from "../lib/interfaces";
 import { MyP5 } from "../classes/p5";
 import { Greedy } from "../classes/greedy";
 import { GraphService } from "../services/graphService";
@@ -22,17 +22,15 @@ const Workspace = () => {
   let canDisplay = false;
 
   const showDegreeOutput = (degrees: INodeDegree[], maxDegreeNode: number) => {
-    const degreesText: IOutputDetails[] = [];
+    outputService.dispatchOutput({ text: `Coloring chosen node: #${greedyData.vertices[maxDegreeNode].nb}`, isTitle: true });
+
     degrees.forEach((degree) => {
-      degreesText.push({ text: `Node #${degree.nodeNb} has a degree of ${degree.degree}`, color: degree.nodeNb === maxDegreeNode ? OutputColors.main : OutputColors.black });
+      outputService.dispatchOutput({
+        isTitle: false,
+        text: `Node #${degree.nodeNb} has a degree of ${degree.degree}`,
+        color: degree.nodeNb === maxDegreeNode ? OutputColors.main : OutputColors.black,
+      });
     });
-
-    const output: IOutput = {
-      title: `Coloring chosen node: #${greedyData.vertices[maxDegreeNode].nb}`,
-      details: degreesText,
-    };
-
-    outputService.dispatchOutput(output);
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
@@ -66,7 +64,7 @@ const Workspace = () => {
       // keep checkin if a node with no color (white color) exists -> means some node hasn't got a number yet
       const unvisitedNodesNb = graphService.getUnvisitedNodes(greedyData.vertices).length;
       if (unvisitedNodesNb > 0) {
-        outputService.showCustom({ title: `${unvisitedNodesNb} nodes to visit` }, canDisplay);
+        outputService.showCustom({ text: `${unvisitedNodesNb} node${unvisitedNodesNb > 1 ? "s" : ""} to visit`, isTitle: true }, canDisplay);
         await sleep(TIME_SLEEP);
 
         // select next optimum node
@@ -98,7 +96,8 @@ const Workspace = () => {
         // algorithm has finished -> end loop
         outputService.showNbOfColors(graphService.getNbOfColorsUsed(greedyData.vertices));
         outputService.dispatchOutput({
-          title: `Refresh the page to retry again for the time being`,
+          text: `Refresh the page to retry again for the time being`,
+          isTitle: true,
         });
         p5.noLoop();
       }

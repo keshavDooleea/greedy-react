@@ -28,14 +28,7 @@ const Sidebar = ({ setLoadInstanceModal, setOpenInfoModal }: ISidebarProps) => {
 
         <div className="output-container" ref={outputDivRef}>
           {outputs.map((output, index) => (
-            <div key={index} className="output-item">
-              <h4>{output.title}</h4>
-              {output.details?.map((detail, detailIndex) => (
-                <p key={detailIndex} style={{ color: detail.color === null ? OutputColors.black : detail.color }}>
-                  {detail.text}
-                </p>
-              ))}
-            </div>
+            <div key={index}>{output.isTitle ? <h4 className="output-mt">{output.text}</h4> : <p style={{ color: output.color === null ? OutputColors.black : output.color }}>{output.text}</p>}</div>
           ))}
         </div>
       </div>

@@ -24,16 +24,13 @@ export class OutputService {
   };
 
   generateGraph = (vertices: IVertice[], edges: IEdge[]) => {
-    this.dispatchOutput({
-      title: "Generating graph",
-      details: [{ text: `Drawing ${vertices.length} nodes` }, { text: `Drawing ${edges.length} edges` }],
-    } as IOutput);
+    this.dispatchOutput({ isTitle: true, text: "Generating graph" });
+    this.dispatchOutput({ isTitle: false, text: `Drawing ${vertices.length} nodes` });
+    this.dispatchOutput({ isTitle: false, text: `Drawing ${edges.length} edges` });
   };
 
   showNbOfColors = (nbColors: number) => {
-    this.dispatchOutput({
-      title: `Finished coloration`,
-      details: [{ text: `Used ${nbColors} colors` }],
-    });
+    this.dispatchOutput({ isTitle: true, text: "Finished coloration" });
+    this.dispatchOutput({ isTitle: false, text: `Used ${nbColors} colors` });
   };
 }
