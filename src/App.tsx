@@ -94,7 +94,10 @@ function App() {
             </div>
 
             <p className="github">
-              View code on Github: <a href="https://github.com/keshavDooleea/greedy-react">https://github.com/keshavDooleea/greedy-react</a>
+              View code on Github:{" "}
+              <a href="https://github.com/keshavDooleea/greedy-react" target="_blank">
+                https://github.com/keshavDooleea/greedy-react
+              </a>
             </p>
           </>
         </Modal>
