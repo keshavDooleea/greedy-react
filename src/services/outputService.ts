@@ -17,11 +17,7 @@ export class OutputService {
 
   dispatchOutput = (output: IOutput) => this.dispatch(showOutput(output));
 
-  showCustom = (output: IOutput, canDisplay: boolean) => {
-    if (canDisplay) {
-      this.dispatchOutput(output);
-    }
-  };
+  showCustom = (output: IOutput) => this.dispatchOutput(output);
 
   generateGraph = (vertices: IVertice[], edges: IEdge[]) => {
     this.dispatchOutput({ isTitle: true, text: "Generating graph" });

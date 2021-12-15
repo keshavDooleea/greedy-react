@@ -6,7 +6,7 @@ import { IGreedy, INodeDegree } from "../lib/interfaces";
 import { MyP5 } from "../classes/p5";
 import { Greedy } from "../classes/greedy";
 import { GraphService } from "../services/graphService";
-import { COLORS, TIME_SLEEP, WHITE_COLOR } from "../lib/constants";
+import { COLORS, SHORT_TIME_SLEEP, TIME_SLEEP, WHITE_COLOR } from "../lib/constants";
 import { OutputColors } from "../lib/enum";
 import { sleep } from "../lib/utils";
 import { OutputService } from "../services/outputService";
@@ -19,7 +19,6 @@ const Workspace = () => {
   const graphService = GraphService.getInstance();
   let myP5: MyP5;
   let greedy: Greedy;
-  let canDisplay = false;
 
   const showDegreeOutput = (degrees: INodeDegree[], maxDegreeNode: number) => {
     outputService.dispatchOutput({ text: `Coloring chosen node: #${greedyData.vertices[maxDegreeNode].nb}`, isTitle: true });
@@ -41,6 +40,11 @@ const Workspace = () => {
     p5.createCanvas(canvasDiv.offsetWidth, canvasDiv.offsetHeight).parent(canvasParentRef);
   };
 
+  const drawGraph = (p5: p5Types) => {
+    greedyData.edges.forEach((edge) => myP5.drawEdge(p5, edge, greedyData.vertices));
+    greedyData.vertices.forEach((vertice) => myP5.drawVertice(p5, greedyData.vertices.length, vertice));
+  };
+
   const draw = async (p5: p5Types) => {
     p5.background(255);
 
@@ -49,8 +53,7 @@ const Workspace = () => {
     if (greedyData.vertices != null) {
       if (!greedy) greedy = new Greedy();
 
-      greedyData.edges.forEach((edge) => myP5.drawEdge(p5, edge, greedyData.vertices));
-      greedyData.vertices.forEach((vertice) => myP5.drawVertice(p5, greedyData.vertices.length, vertice));
+      drawGraph(p5);
 
       // get first/starting node with highest degree
       const degrees = graphService.getNodesDegree(greedyData.edges, greedyData.vertices);
@@ -59,13 +62,16 @@ const Workspace = () => {
       if (greedyData.vertices[maxDegreeNode].color === WHITE_COLOR) {
         showDegreeOutput(degrees, maxDegreeNode);
         greedyData.vertices[maxDegreeNode].color = COLORS[0];
+        drawGraph(p5);
       }
 
       // keep checkin if a node with no color (white color) exists -> means some node hasn't got a number yet
       const unvisitedNodesNb = graphService.getUnvisitedNodes(greedyData.vertices).length;
       if (unvisitedNodesNb > 0) {
-        outputService.showCustom({ text: `${unvisitedNodesNb} node${unvisitedNodesNb > 1 ? "s" : ""} to visit`, isTitle: true }, canDisplay);
+        p5.noLoop();
+        outputService.showCustom({ text: `${unvisitedNodesNb} node${unvisitedNodesNb > 1 ? "s" : ""} to visit`, isTitle: true });
         await sleep(TIME_SLEEP);
+        console.count("iterations");
 
         // select next optimum node
         const nextNode = greedy.greedyChoice(greedyData.edges, greedyData.vertices);
@@ -86,11 +92,10 @@ const Workspace = () => {
           }
         }
 
-        canDisplay = false;
         // update next node's color to smallest possible color
         if (greedyData.vertices[nextNode] && greedyData.vertices[nextNode].color === WHITE_COLOR) {
           greedyData.vertices[nextNode].color = COLORS[smallestColorIndex];
-          canDisplay = true;
+          p5.loop();
         }
       } else {
         // algorithm has finished -> end loop
@@ -102,7 +107,6 @@ const Workspace = () => {
         p5.noLoop();
       }
     }
-    // x++;
   };
 
   return <Sketch setup={setup} draw={draw} className="workspace" />;
