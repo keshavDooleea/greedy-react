@@ -20,6 +20,7 @@ const Workspace = () => {
   const graphService = GraphService.getInstance();
   let myP5: MyP5;
   let greedy: Greedy;
+  let canDisplay = false;
 
   const showDegreeOutput = (degrees: INodeDegree[], maxDegreeNode: number) => {
     const degreesText: IOutputDetails[] = [];
@@ -64,7 +65,9 @@ const Workspace = () => {
       }
 
       // keep checkin if a node with no color (white color) exists -> means some node hasn't got a number yet
-      if (graphService.canContinue(greedyData.vertices)) {
+      const unvisitedNodesNb = graphService.getUnvisitedNodes(greedyData.vertices).length;
+      if (unvisitedNodesNb > 0) {
+        outputService.showCustom({ title: `${unvisitedNodesNb} nodes to visit` }, canDisplay);
         await sleep(TIME_SLEEP);
 
         // select next optimum node
@@ -86,9 +89,14 @@ const Workspace = () => {
           }
         }
 
+        canDisplay = false;
         // update next node's color to smallest possible color
-        if (greedyData.vertices[nextNode] && greedyData.vertices[nextNode].color === WHITE_COLOR) greedyData.vertices[nextNode].color = COLORS[smallestColorIndex];
+        if (greedyData.vertices[nextNode] && greedyData.vertices[nextNode].color === WHITE_COLOR) {
+          greedyData.vertices[nextNode].color = COLORS[smallestColorIndex];
+          canDisplay = true;
+        }
       } else {
+        // algorithm has finished -> end loop
         outputService.showNbOfColors(graphService.getNbOfColorsUsed(greedyData.vertices));
         outputService.dispatchOutput({
           title: `Refresh the page to retry again for the time being`,

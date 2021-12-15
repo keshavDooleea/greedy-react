@@ -90,11 +90,6 @@ export class GraphService {
     return maxNodes.length > 0 ? maxNodes[0].nodeNb : -1;
   };
 
-  // keep checkin if a node with no color exists
-  canContinue = (vertices: IVertice[]): Boolean => {
-    return this.getUnvisitedNodes(vertices).length > 0;
-  };
-
   getUnvisitedNodes = (vertices: IVertice[]) => {
     return vertices.filter((vertice) => vertice.color === WHITE_COLOR);
   };

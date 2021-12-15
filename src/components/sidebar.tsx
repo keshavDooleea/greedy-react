@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { RootStateOrAny, useSelector } from "react-redux";
 import { OutputColors } from "../lib/enum";
 import { IOutput } from "../lib/interfaces";
@@ -10,6 +10,12 @@ interface ISidebarProps {
 
 const Sidebar = ({ setLoadInstanceModal, setOpenInfoModal }: ISidebarProps) => {
   const outputs: IOutput[] = useSelector((state: RootStateOrAny) => state.outputReducer);
+  const outputDivRef = React.createRef<HTMLDivElement>();
+
+  useEffect(() => {
+    if (!outputDivRef || !outputDivRef.current) return;
+    outputDivRef.current.scrollTop = outputDivRef.current.scrollHeight;
+  }, [outputs]);
 
   return (
     <div className="sidebar">
@@ -19,7 +25,7 @@ const Sidebar = ({ setLoadInstanceModal, setOpenInfoModal }: ISidebarProps) => {
           <button onClick={() => setOpenInfoModal(true)}>Info</button>
         </header>
 
-        <div className="output-container">
+        <div className="output-container" ref={outputDivRef}>
           {outputs.map((output, index) => (
             <div key={index} className="output-item">
               <h4>{output.title}</h4>
