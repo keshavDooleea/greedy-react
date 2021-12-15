@@ -1,5 +1,5 @@
 export const WHITE_COLOR = "#fff";
-export const COLORS = ["#83c5be", "#ffd000", "#ffafcc", "#d4a276", "#d8bbff", "#457b9d"];
+export const COLORS = ["#83c5be", "#ffd000", "#ffafcc", "#b08968", "#ff9166", "#457b9d", "#80b918"];
 
 export const TIME_SLEEP = 1500;
 

@@ -13,8 +13,9 @@ const Sidebar = ({ setLoadInstanceModal, setOpenInfoModal }: ISidebarProps) => {
   const outputDivRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!outputDivRef || !outputDivRef.current) return;
-    outputDivRef.current.scrollTop = outputDivRef.current.scrollHeight;
+    if (outputDivRef && outputDivRef.current) {
+      outputDivRef.current.scrollTop = outputDivRef.current.scrollHeight;
+    }
   }, [outputs]);
 
   return (
