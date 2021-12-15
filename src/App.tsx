@@ -5,6 +5,7 @@ import Modal from "./components/modal";
 import Navbar from "./components/navbar";
 import Sidebar from "./components/sidebar";
 import Workspace from "./components/workspace";
+import { TIME_SLEEP } from "./lib/constants";
 import { IEdge, IOutput, IVertice } from "./lib/interfaces";
 import { GraphService } from "./services/graphService";
 import { setGreedy, showOutput } from "./store/actions";
@@ -64,7 +65,10 @@ function App() {
                 </div>
 
                 <div className="instructions">
-                  <p>Don't leave any whitespace or empty line in betewen inputs</p>
+                  <p>Don't leave any whitespace or empty line in between inputs</p>
+                  <p>
+                    A delay of <strong>{TIME_SLEEP}</strong>ms has been added in between the steps by default!
+                  </p>
                 </div>
               </div>
             </div>
