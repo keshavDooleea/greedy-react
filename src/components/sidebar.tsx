@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { RootStateOrAny, useSelector } from "react-redux";
 import { OutputColors } from "../lib/enum";
 import { IOutput } from "../lib/interfaces";
@@ -10,7 +10,7 @@ interface ISidebarProps {
 
 const Sidebar = ({ setLoadInstanceModal, setOpenInfoModal }: ISidebarProps) => {
   const outputs: IOutput[] = useSelector((state: RootStateOrAny) => state.outputReducer);
-  const outputDivRef = React.createRef<HTMLDivElement>();
+  const outputDivRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!outputDivRef || !outputDivRef.current) return;
