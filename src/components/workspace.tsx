@@ -19,6 +19,7 @@ const Workspace = () => {
   const graphService = GraphService.getInstance();
   let myP5: MyP5;
   let greedy: Greedy;
+  let hasGeneratedGraph = false;
 
   const showDegreeOutput = (degrees: INodeDegree[], maxDegreeNode: number) => {
     outputService.dispatchOutput({ text: `Coloring chosen node: #${greedyData.vertices[maxDegreeNode].nb}`, isTitle: true });
@@ -40,6 +41,29 @@ const Workspace = () => {
     p5.createCanvas(canvasDiv.offsetWidth, canvasDiv.offsetHeight).parent(canvasParentRef);
   };
 
+  // draw nodes and edges with animation
+  const drawInitialGraph = async (p5: p5Types) => {
+    outputService.showNbOfNodes(greedyData.vertices);
+    for (let i = 0; i < greedyData.vertices.length; i++) {
+      await sleep(SHORT_TIME_SLEEP);
+      myP5.drawVertice(p5, greedyData.vertices.length, greedyData.vertices[i]);
+    }
+
+    outputService.showNbOfEdges(greedyData.edges);
+    for (let i = 0; i < greedyData.edges.length; i++) {
+      await sleep(SHORT_TIME_SLEEP);
+      myP5.drawEdge(p5, greedyData.edges[i], greedyData.vertices);
+    }
+
+    hasGeneratedGraph = true;
+    outputService.dispatchOutput({ isTitle: true, text: "Starting Greedy algorithm" });
+    await sleep(SHORT_TIME_SLEEP);
+    drawGraph(p5);
+    await sleep(TIME_SLEEP);
+
+    p5.loop();
+  };
+
   const drawGraph = (p5: p5Types) => {
     greedyData.edges.forEach((edge) => myP5.drawEdge(p5, edge, greedyData.vertices));
     greedyData.vertices.forEach((vertice) => myP5.drawVertice(p5, greedyData.vertices.length, vertice));
@@ -52,6 +76,14 @@ const Workspace = () => {
 
     if (greedyData.vertices != null) {
       if (!greedy) greedy = new Greedy();
+
+      // generate initial graph with delay
+      if (!hasGeneratedGraph) {
+        outputService.dispatchOutput({ isTitle: true, text: "Generating graph" });
+        drawInitialGraph(p5);
+        p5.noLoop();
+        return;
+      }
 
       drawGraph(p5);
 

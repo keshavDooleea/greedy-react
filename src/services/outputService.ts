@@ -19,11 +19,8 @@ export class OutputService {
 
   showCustom = (output: IOutput) => this.dispatchOutput(output);
 
-  generateGraph = (vertices: IVertice[], edges: IEdge[]) => {
-    this.dispatchOutput({ isTitle: true, text: "Generating graph" });
-    this.dispatchOutput({ isTitle: false, text: `Drawing ${vertices.length} nodes` });
-    this.dispatchOutput({ isTitle: false, text: `Drawing ${edges.length} edges` });
-  };
+  showNbOfNodes = (vertices: IVertice[]) => this.dispatchOutput({ isTitle: false, text: `Drawing ${vertices.length} nodes` });
+  showNbOfEdges = (edges: IEdge[]) => this.dispatchOutput({ isTitle: false, text: `Drawing ${edges.length} edges` });
 
   showNbOfColors = (nbColors: number) => {
     this.dispatchOutput({ isTitle: true, text: "Finished coloration" });
