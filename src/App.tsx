@@ -45,13 +45,29 @@ function App() {
         <Modal setLoadInstanceModal={setLoadInstanceModal}>
           <>
             <h2>Enter instances</h2>
-            <textarea
-              className="c-r"
-              defaultValue={(graphService.getGraphInput() as string) || ""}
-              onChange={(e) => {
-                setInstancesInput(e.target.value);
-              }}
-            ></textarea>
+            <div className="instances-main">
+              <textarea
+                className="c-r default-text"
+                defaultValue={(graphService.getGraphInput() as string) || ""}
+                onChange={(e) => {
+                  setInstancesInput(e.target.value);
+                }}
+              ></textarea>
+              <div className="instances-example">
+                <h3>Example of instance input</h3>
+                <div className="default-text">
+                  <p>0 1 0 0 0</p>
+                  <p>1 0 1 1 0</p>
+                  <p>0 1 0 1 1</p>
+                  <p>0 1 1 0 1</p>
+                  <p>0 0 1 1 0</p>
+                </div>
+
+                <div className="instructions">
+                  <p>Don't leave any whitespace or empty line in betewen inputs</p>
+                </div>
+              </div>
+            </div>
             <button className="c-r" onClick={readInstances}>
               Execute
             </button>

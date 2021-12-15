@@ -21,6 +21,13 @@ body {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
+.default-text {
+  &,
+  & * {
+    font-family: initial;
+  }
+}
+
 .App {
   width: 100vw;
   height: 100vh;
@@ -125,24 +132,40 @@ button:hover {
     flex-direction: column;
     align-items: center;
     padding: 10px 0;
+  }
+}
 
-    textarea {
-      font-family: initial;
-      width: 90%;
-      flex: 1;
-      margin: 20px 0;
-      resize: none;
-      padding: 5px;
-      background-color: #fff;
-      font-size: 1.3rem;
+.instances-main {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  padding: 20px;
+  gap: 10px;
 
-      &:focus {
-        outline: none;
-      }
-    }
+  textarea {
+    width: 50%;
+    height: 100%;
+    resize: none;
+    padding: 5px;
+    background-color: #fff;
+    font-size: 1.3rem;
 
-    button {
-      padding: 5px;
+    &:focus {
+      outline: none;
     }
   }
+
+  .instances-example {
+    width: 50%;
+    height: 100%;
+    border-radius: 8px;
+  }
+
+  button {
+    padding: 5px;
+  }
+}
+
+.instructions {
+  margin-top: 15px;
 }
