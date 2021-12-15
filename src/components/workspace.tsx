@@ -94,7 +94,7 @@ const Workspace = () => {
         dispatch(showOutput(output));
 
         const refreshOutput: IOutput = {
-          title: `Refresh to retry again for the time being`,
+          title: `Refresh the page to retry again for the time being`,
         };
         dispatch(showOutput(refreshOutput));
         p5.noLoop();
