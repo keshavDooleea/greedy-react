@@ -61,6 +61,8 @@ export class GraphService {
   getNeighbors = (edges: IEdge[], currentNode: IVertice): number[] => {
     const neighbors: number[] = [];
 
+    if (!currentNode) return [];
+
     edges.forEach((edge) => {
       if (edge.start === currentNode.nb) neighbors.push(edge.end);
       else if (edge.end === currentNode.nb) neighbors.push(edge.start);
@@ -83,9 +85,10 @@ export class GraphService {
     return degrees;
   };
 
-  getMaxDegreeNode = (nodeDegrees: INodeDegree[]) => {
+  getMaxDegreeNode = (nodeDegrees: INodeDegree[]): number => {
     const maxDegree = nodeDegrees.reduce((acc, degree) => (acc = acc > degree.degree ? acc : degree.degree), 0);
-    return nodeDegrees.filter((nodes) => nodes.degree === maxDegree)[0].nodeNb;
+    const maxNodes = nodeDegrees.filter((nodes) => nodes.degree === maxDegree);
+    return maxNodes.length > 0 ? maxNodes[0].nodeNb : -1;
   };
 
   // keep checkin if a node with no color exists
