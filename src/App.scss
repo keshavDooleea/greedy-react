@@ -1,0 +1,61 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+$sidebar: 400px;
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #3d3d3d;
+  color: #b4b4b4;
+  overflow: hidden;
+}
+
+.c-r {
+  border-radius: 6px;
+}
+
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: $sidebar;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 10px;
+
+  textarea {
+    margin: 30px 0;
+    width: 100%;
+    height: 80vh;
+    resize: none;
+    padding: 5px;
+    font-size: 1.3rem;
+    background-color: rgba($color: #fff, $alpha: 0.7);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  button {
+    padding: 5px;
+    border: none;
+    font-size: 1.3rem;
+  }
+}
+
+.workspace {
+  width: calc(100vw - #{$sidebar});
+  height: 100vh;
+  background-color: rgba($color: #fff, $alpha: 0.7);
+}
