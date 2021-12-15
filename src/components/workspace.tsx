@@ -92,6 +92,11 @@ const Workspace = () => {
           details: [{ text: `Used ${graphService.getNbOfColorsUsed(greedyData.vertices)} colors` }],
         };
         dispatch(showOutput(output));
+
+        const refreshOutput: IOutput = {
+          title: `Refresh to retry again for the time being`,
+        };
+        dispatch(showOutput(refreshOutput));
         p5.noLoop();
       }
     }
