@@ -40,7 +40,9 @@ body {
     height: 70%;
     background-color: #f0f1f6;
     margin: auto;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -76,7 +78,6 @@ main {
       flex: 1;
       margin-top: 15px;
       padding: 4px;
-      font-size: 20px;
       overflow-y: auto;
 
       .output-item {
@@ -92,7 +93,6 @@ main {
 }
 
 button {
-  font-size: 18px;
   padding: 5px;
   cursor: pointer;
   background-color: #ecf3fe;
@@ -133,8 +133,8 @@ button:hover {
       margin: 20px 0;
       resize: none;
       padding: 5px;
-      font-size: 1.3rem;
       background-color: #fff;
+      font-size: 1.3rem;
 
       &:focus {
         outline: none;
@@ -143,7 +143,6 @@ button:hover {
 
     button {
       padding: 5px;
-      font-size: 1.3rem;
     }
   }
 }
