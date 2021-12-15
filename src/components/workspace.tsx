@@ -75,22 +75,8 @@ const Workspace = () => {
 
         // select next optimum node
         const nextNode = greedy.greedyChoice(greedyData.edges, greedyData.vertices);
-
         await sleep(TIME_SLEEP);
-        // check available colors of current neighbors
-        const neighbors = graphService.getNeighbors(greedyData.edges, greedyData.vertices[nextNode]);
-        const neighborColors = neighbors.map((neighbor) => greedyData.vertices[neighbor].color);
-        let smallestColorIndex = -1;
-
-        await sleep(TIME_SLEEP);
-
-        // find smallest K out of nb of nodes
-        for (let i = 0; i < COLORS.length; i++) {
-          if (!neighborColors.includes(COLORS[i])) {
-            smallestColorIndex = i;
-            break;
-          }
-        }
+        const smallestColorIndex = await greedy.findSmallestColorIndex(greedyData.edges, greedyData.vertices, nextNode);
 
         // update next node's color to smallest possible color
         if (greedyData.vertices[nextNode] && greedyData.vertices[nextNode].color === WHITE_COLOR) {
