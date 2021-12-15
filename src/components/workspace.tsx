@@ -1,7 +1,7 @@
 import Sketch from "react-p5";
 import p5Types from "p5";
 import { useState } from "react";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { RootStateOrAny, useSelector } from "react-redux";
 import { IGreedy, INodeDegree, IOutput, IOutputDetails } from "../lib/interfaces";
 import { MyP5 } from "../classes/p5";
 import { Greedy } from "../classes/greedy";
@@ -10,12 +10,13 @@ import { COLORS, TIME_SLEEP, WHITE_COLOR } from "../lib/constants";
 import { showOutput } from "../store/actions";
 import { OutputColors } from "../lib/enum";
 import { sleep } from "../lib/utils";
+import { OutputService } from "../services/outputService";
 
 const Workspace = () => {
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
   const greedyData: IGreedy = useSelector((state: RootStateOrAny) => state.greedyReducer);
-  const dispatch = useDispatch();
+  const outputService = OutputService.getInstance();
   const graphService = GraphService.getInstance();
   let myP5: MyP5;
   let greedy: Greedy;
@@ -30,7 +31,8 @@ const Workspace = () => {
       title: `Coloring chosen node: #${greedyData.vertices[maxDegreeNode].nb}`,
       details: degreesText,
     };
-    dispatch(showOutput(output));
+
+    outputService.dispatchOutput(output);
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
@@ -87,16 +89,10 @@ const Workspace = () => {
         // update next node's color to smallest possible color
         if (greedyData.vertices[nextNode] && greedyData.vertices[nextNode].color === WHITE_COLOR) greedyData.vertices[nextNode].color = COLORS[smallestColorIndex];
       } else {
-        const output: IOutput = {
-          title: `Finished coloration`,
-          details: [{ text: `Used ${graphService.getNbOfColorsUsed(greedyData.vertices)} colors` }],
-        };
-        dispatch(showOutput(output));
-
-        const refreshOutput: IOutput = {
+        outputService.showNbOfColors(graphService.getNbOfColorsUsed(greedyData.vertices));
+        outputService.dispatchOutput({
           title: `Refresh the page to retry again for the time being`,
-        };
-        dispatch(showOutput(refreshOutput));
+        });
         p5.noLoop();
       }
     }
