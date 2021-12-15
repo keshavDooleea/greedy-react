@@ -7,7 +7,6 @@ import { MyP5 } from "../classes/p5";
 import { Greedy } from "../classes/greedy";
 import { GraphService } from "../services/graphService";
 import { COLORS, TIME_SLEEP, WHITE_COLOR } from "../lib/constants";
-import { showOutput } from "../store/actions";
 import { OutputColors } from "../lib/enum";
 import { sleep } from "../lib/utils";
 import { OutputService } from "../services/outputService";
