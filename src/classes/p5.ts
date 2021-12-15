@@ -11,6 +11,12 @@ export class MyP5 {
     this.height = height;
   }
 
+  drawGraph = (p5: p5Types, edges: IEdge[], vertices: IVertice[]) => {
+    p5.background(255);
+    edges.forEach((edge) => this.drawEdge(p5, edge, vertices));
+    vertices.forEach((vertice) => this.drawVertice(p5, vertices.length, vertice));
+  };
+
   drawVertice = (p5: p5Types, totalNbVertices: number, vertice: IVertice) => {
     const middleX = this.width / 2;
     const middleY = this.height / 2;
@@ -41,6 +47,14 @@ export class MyP5 {
 
     p5.fill(0);
     p5.line(startEdgeX, startEdgeY, endEdgeX, endEdgeY);
+    p5.noFill();
+  };
+
+  // @todo: draw behind the current vertice from trigonometry
+  drawNodeValue = (p5: p5Types, vertice: IVertice, value: string, color: string) => {
+    p5.fill(color);
+    p5.textSize(20);
+    p5.text(value, vertice.x! + 40, vertice.y!);
     p5.noFill();
   };
 }

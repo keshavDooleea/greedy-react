@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { DSAT_COLOR } from "../lib/constants";
 import { IEdge, IOutput, IVertice } from "../lib/interfaces";
 import { showOutput } from "../store/actions";
 
@@ -26,4 +27,6 @@ export class OutputService {
     this.dispatchOutput({ isTitle: true, text: "Finished coloration" });
     this.dispatchOutput({ isTitle: false, text: `Used ${nbColors} colors` });
   };
+
+  showDSAT = () => this.dispatchOutput({ isTitle: false, text: `Calculating DSAT values of remaining nodes`, color: DSAT_COLOR });
 }

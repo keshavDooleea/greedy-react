@@ -1,21 +1,38 @@
-import { COLORS } from "../lib/constants";
+import { COLORS, DSAT_COLOR, LONG_TIME_SLEEP, SELECTED_DSAT_COLOR, SELECTED_DSAT_NODE } from "../lib/constants";
 import { IDsat, IEdge, IVertice } from "../lib/interfaces";
 import { GraphService } from "../services/graphService";
+import { MyP5 } from "./p5";
+import p5Types from "p5";
+import { OutputService } from "../services/outputService";
+import { sleep } from "../lib/utils";
 
 export class Greedy {
   private graphService = GraphService.getInstance();
+  private outputService = OutputService.getInstance();
 
-  greedyChoice = (edges: IEdge[], vertices: IVertice[]) => {
+  // wait and remove text nodes
+  refreshGraph = async (p5: p5Types, myP5: MyP5, edges: IEdge[], vertices: IVertice[]) => {
+    await sleep(LONG_TIME_SLEEP * 2);
+    myP5.drawGraph(p5, edges, vertices);
+  };
+
+  greedyChoice = async (p5: p5Types, myP5: MyP5, edges: IEdge[], vertices: IVertice[]) => {
     const unvisitedNodes = this.graphService.getUnvisitedNodes(vertices);
 
     // get number of colors for each neighbor
+    this.outputService.showDSAT();
     const DSATList: IDsat[] = [];
     unvisitedNodes.forEach((unvisitedNode) => {
+      const dsatValue = this.graphService.calculateDSAT(edges, vertices, unvisitedNode);
       DSATList.push({
         nodeNb: unvisitedNode.nb,
-        dsat: this.graphService.calculateDSAT(edges, vertices, unvisitedNode),
+        dsat: dsatValue,
       });
+
+      myP5.drawNodeValue(p5, unvisitedNode, `DSAT: ${dsatValue}`, DSAT_COLOR);
     });
+
+    await this.refreshGraph(p5, myP5, edges, vertices);
 
     // get max DSAT
     const maxDsatNb = this.graphService.getMaxDSAT(DSATList);
@@ -25,12 +42,20 @@ export class Greedy {
     DSATList.forEach((dsat) => {
       if (dsat.dsat === maxDsatNb) {
         maxDsatNodes.push(vertices[dsat.nodeNb]);
+        myP5.drawNodeValue(p5, vertices[dsat.nodeNb], `Highest DSAT: ${maxDsatNb}`, SELECTED_DSAT_COLOR);
       }
     });
+    const maxNodeLength = maxDsatNodes.length;
+    this.outputService.showCustom({ isTitle: false, text: `Found ${maxNodeLength} node${maxNodeLength > 1 ? "s" : ""} with highest DSAT of ${maxDsatNb}`, color: SELECTED_DSAT_COLOR });
+
+    await this.refreshGraph(p5, myP5, edges, vertices);
 
     // find the DSAT with highest node degree -> our next node
+    this.outputService.showCustom({ isTitle: false, text: "Choosing node with highest degree and highest DSAT" });
     const dsatNodeDegrees = this.graphService.getNodesDegree(edges, maxDsatNodes);
     const maxDsatNode = this.graphService.getMaxDegreeNode(dsatNodeDegrees);
+    myP5.drawNodeValue(p5, vertices[maxDsatNode], "Selected node", SELECTED_DSAT_NODE);
+    this.outputService.showCustom({ isTitle: false, text: `Node #${maxDsatNode} has been chosen to be colored`, color: SELECTED_DSAT_NODE });
 
     return maxDsatNode;
   };
