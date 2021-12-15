@@ -5,9 +5,9 @@ import Modal from "./components/modal";
 import Navbar from "./components/navbar";
 import Sidebar from "./components/sidebar";
 import Workspace from "./components/workspace";
-import { IEdge, IVertice } from "./lib/interfaces";
+import { IEdge, IOutput, IVertice } from "./lib/interfaces";
 import { GraphService } from "./services/graphService";
-import { setGreedy } from "./store/actions";
+import { setGreedy, showOutput } from "./store/actions";
 
 function App() {
   const [loadInstanceModal, setLoadInstanceModal] = useState<boolean>(false);
@@ -24,6 +24,12 @@ function App() {
     const edges: IEdge[] = graphService.getEdges();
 
     dispatch(setGreedy({ vertices, edges }));
+
+    // show in terminal
+    const output: IOutput = {
+      title: "Generating graph",
+    };
+    dispatch(showOutput(output));
   };
 
   return (

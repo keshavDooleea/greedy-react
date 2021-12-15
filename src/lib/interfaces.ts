@@ -29,3 +29,8 @@ export interface IAction<T> {
   type: String;
   data: T;
 }
+
+export interface IOutput {
+  title: string;
+  details?: string[];
+}
