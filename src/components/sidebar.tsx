@@ -5,9 +5,10 @@ import { IOutput } from "../lib/interfaces";
 
 interface ISidebarProps {
   setLoadInstanceModal: Dispatch<SetStateAction<boolean>>;
+  setOpenInfoModal: Dispatch<SetStateAction<boolean>>;
 }
 
-const Sidebar = ({ setLoadInstanceModal }: ISidebarProps) => {
+const Sidebar = ({ setLoadInstanceModal, setOpenInfoModal }: ISidebarProps) => {
   const outputs: IOutput[] = useSelector((state: RootStateOrAny) => state.outputReducer);
 
   return (
@@ -15,7 +16,7 @@ const Sidebar = ({ setLoadInstanceModal }: ISidebarProps) => {
       <div className="sidebar-main c-r">
         <header>
           <button onClick={() => setLoadInstanceModal(true)}>Load Instances</button>
-          <button>Info</button>
+          <button onClick={() => setOpenInfoModal(true)}>Info</button>
         </header>
 
         <div className="output-container">

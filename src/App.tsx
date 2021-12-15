@@ -12,6 +12,7 @@ import { setGreedy, showOutput } from "./store/actions";
 
 function App() {
   const [loadInstanceModal, setLoadInstanceModal] = useState<boolean>(false);
+  const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
   const graphService = GraphService.getInstance();
 
   const [instancesInput, setInstancesInput] = useState<String>("");
@@ -39,11 +40,11 @@ function App() {
       <Navbar />
       <main>
         <Workspace />
-        <Sidebar setLoadInstanceModal={setLoadInstanceModal} />
+        <Sidebar setLoadInstanceModal={setLoadInstanceModal} setOpenInfoModal={setOpenInfoModal} />
       </main>
 
       {loadInstanceModal && (
-        <Modal setLoadInstanceModal={setLoadInstanceModal}>
+        <Modal setOpenModal={setLoadInstanceModal}>
           <>
             <h2>Enter instances</h2>
             <div className="instances-main">
@@ -75,6 +76,24 @@ function App() {
             <button className="c-r" onClick={readInstances}>
               Execute
             </button>
+          </>
+        </Modal>
+      )}
+
+      {openInfoModal && (
+        <Modal setOpenModal={setOpenInfoModal}>
+          <>
+            <h2>Information on this Website</h2>
+
+            <div className="middle">
+              <p>This visualisation was made on React JS using the library P5.js on the 15th of December 2021</p>
+
+              <p>explain Greedy..</p>
+            </div>
+
+            <p className="github">
+              View code on Github: <a href="https://github.com/keshavDooleea/greedy-react">https://github.com/keshavDooleea/greedy-react</a>
+            </p>
           </>
         </Modal>
       )}

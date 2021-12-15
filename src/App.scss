@@ -132,6 +132,7 @@ button:hover {
     flex-direction: column;
     align-items: center;
     padding: 10px 0;
+    position: relative;
   }
 }
 
@@ -169,4 +170,20 @@ button:hover {
 .instructions {
   margin-top: 15px;
   font-style: italic;
+}
+
+.middle {
+  width: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.github {
+  position: absolute;
+  bottom: 3vh;
+  left: 50%;
+  transform: translateX(-50%);
 }
