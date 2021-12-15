@@ -5,7 +5,7 @@ import Modal from "./components/modal";
 import Navbar from "./components/navbar";
 import Sidebar from "./components/sidebar";
 import Workspace from "./components/workspace";
-import { TIME_SLEEP } from "./lib/constants";
+import { INITIAL_MATRIX, TIME_SLEEP } from "./lib/constants";
 import { IEdge, IOutput, IVertice } from "./lib/interfaces";
 import { GraphService } from "./services/graphService";
 import { setGreedy, showOutput } from "./store/actions";
@@ -15,12 +15,12 @@ function App() {
   const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
   const graphService = GraphService.getInstance();
 
-  const [instancesInput, setInstancesInput] = useState<String>("");
+  const [instancesInput, setInstancesInput] = useState<String>(INITIAL_MATRIX);
   const dispatch = useDispatch();
 
   const readInstances = () => {
     setLoadInstanceModal(false);
-    graphService.setGraphInput(instancesInput);
+    graphService.setGraphInput(instancesInput.trim());
 
     const vertices: IVertice[] = graphService.getVertices();
     const edges: IEdge[] = graphService.getEdges();
@@ -50,26 +50,28 @@ function App() {
             <div className="instances-main">
               <textarea
                 className="c-r default-text"
-                defaultValue={(graphService.getGraphInput() as string) || ""}
+                placeholder="Enter an Adjacency matrix (filled with 0 and 1)"
+                defaultValue={(graphService.getGraphInput() as string) || INITIAL_MATRIX}
                 onChange={(e) => {
-                  setInstancesInput(e.target.value);
+                  setInstancesInput(e.target.value.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, ""));
                 }}
               ></textarea>
               <div className="instances-example">
-                <h3>Example of instance input</h3>
+                <div className="instances-title">
+                  <h3>Example of instance input</h3>
+                  <p>(Adjacency Matrix)</p>
+                </div>
                 <div className="default-text">
-                  <p>0 1 0 0 0</p>
-                  <p>1 0 1 1 0</p>
-                  <p>0 1 0 1 1</p>
-                  <p>0 1 1 0 1</p>
-                  <p>0 0 1 1 0</p>
+                  {INITIAL_MATRIX.split("\n").map((line, index) => (
+                    <p key={index}>{line}</p>
+                  ))}
                 </div>
 
                 <div className="instructions">
-                  <p>Don't leave any whitespace or empty line in between inputs</p>
                   <p>
                     A delay of <strong>{TIME_SLEEP}</strong>ms has been added in between the steps by default!
                   </p>
+                  <p>Still have to display details of each steps</p>
                 </div>
               </div>
             </div>
