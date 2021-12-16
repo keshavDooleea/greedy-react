@@ -57,6 +57,7 @@ const Workspace = () => {
 
     hasGeneratedGraph = true;
     outputService.dispatchOutput({ isTitle: true, text: "Starting Greedy algorithm" });
+    outputService.dispatchOutput({ isTitle: false, text: "Choosing node with highest degree to start with" });
     await sleep(SHORT_TIME_SLEEP);
     myP5.drawGraph(p5, greedyData.edges, greedyData.vertices);
     await sleep(TIME_SLEEP);
