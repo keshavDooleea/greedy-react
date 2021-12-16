@@ -74,7 +74,7 @@ main {
     flex-direction: column;
 
     header {
-      margin-top: 10px;
+      margin: 10px 0;
       width: 100%;
       display: flex;
       justify-content: space-evenly;
@@ -106,11 +106,16 @@ button {
   border: 1px solid #3080eb;
   transition: 0.2s background-color, 0.2s color;
   border-radius: 7px;
-}
 
-button:hover {
-  color: white;
-  background-color: #3080eb;
+  &:hover {
+    color: white;
+    background-color: #3080eb;
+  }
+
+  &:disabled {
+    pointer-events: none;
+    border: 1px solid gray;
+  }
 }
 
 .modal-main {

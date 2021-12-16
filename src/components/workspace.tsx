@@ -1,7 +1,7 @@
 import Sketch from "react-p5";
 import p5Types from "p5";
 import { useState } from "react";
-import { RootStateOrAny, useSelector } from "react-redux";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { IGreedy, INodeDegree } from "../lib/interfaces";
 import { MyP5 } from "../classes/p5";
 import { Greedy } from "../classes/greedy";
@@ -10,6 +10,7 @@ import { COLORS, LONG_TIME_SLEEP, SHORT_TIME_SLEEP, TIME_SLEEP, WHITE_COLOR } fr
 import { OutputColors } from "../lib/enum";
 import { sleep } from "../lib/utils";
 import { OutputService } from "../services/outputService";
+import { setGreedyHasFinished } from "../store/actions";
 
 const Workspace = () => {
   const [width, setWidth] = useState<number>(0);
@@ -20,6 +21,7 @@ const Workspace = () => {
   let myP5: MyP5;
   let greedy: Greedy;
   let hasGeneratedGraph = false;
+  const dispatch = useDispatch();
 
   const showDegreeOutput = (degrees: INodeDegree[], maxDegreeNode: number) => {
     outputService.dispatchOutput({ text: `Coloring chosen node: #${greedyData.vertices[maxDegreeNode].nb}`, isTitle: true });
@@ -115,6 +117,8 @@ const Workspace = () => {
           text: `Refresh the page to retry again for the time being`,
           isTitle: true,
         });
+        dispatch(setGreedyHasFinished());
+
         p5.noLoop();
       }
     }

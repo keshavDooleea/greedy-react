@@ -8,7 +8,7 @@ import Workspace from "./components/workspace";
 import { INITIAL_MATRIX, TIME_SLEEP } from "./lib/constants";
 import { IEdge, IVertice } from "./lib/interfaces";
 import { GraphService } from "./services/graphService";
-import { setGreedy } from "./store/actions";
+import { setGreedy, setGreedyHasStarted } from "./store/actions";
 
 function App() {
   const [loadInstanceModal, setLoadInstanceModal] = useState<boolean>(false);
@@ -26,6 +26,7 @@ function App() {
     const edges: IEdge[] = graphService.getEdges();
 
     dispatch(setGreedy({ vertices, edges }));
+    dispatch(setGreedyHasStarted());
   };
 
   return (
