@@ -2,6 +2,7 @@ import { faPenFancy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dispatch, SetStateAction } from "react";
 import { INITIAL_MATRIX } from "../../lib/constants";
+import { removeWhitespace } from "../../lib/utils";
 import { GraphService } from "../../services/graphService";
 import Settings from "../settings";
 
@@ -31,7 +32,7 @@ const CreateInstanceModal = ({ shouldShowStep, setShouldShowStep, setInstancesIn
             placeholder="Enter an Adjacency matrix (filled with 0 and 1)"
             defaultValue={(graphService.getGraphInput() as string) || INITIAL_MATRIX}
             onChange={(e) => {
-              setInstancesInput(e.target.value.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, ""));
+              setInstancesInput(removeWhitespace(e.target.value));
             }}
           ></textarea>
 

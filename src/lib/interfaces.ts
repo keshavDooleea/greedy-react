@@ -35,3 +35,11 @@ export interface IOutput {
   color?: string;
   isTitle: boolean;
 }
+
+export interface ITemplate {
+  id: string;
+  nbVertices: number;
+  nbEdges: number;
+  nbColors: number;
+  instance: string;
+}

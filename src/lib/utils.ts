@@ -8,3 +8,5 @@ export const sleep = (time: number) => {
 
   return new Promise((resolve) => setTimeout(resolve, time));
 };
+
+export const removeWhitespace = (input: string) => input.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, "").trim();

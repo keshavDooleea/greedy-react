@@ -29,8 +29,9 @@ function App() {
 
   const readInstances = () => {
     setCreateInstanceModal(false);
+    setLoadInstanceModal(false);
     outputService.clearOutputs();
-    graphService.setGraphInput(instancesInput.trim());
+    graphService.setGraphInput(instancesInput);
 
     const vertices: IVertice[] = graphService.getVertices();
     const edges: IEdge[] = graphService.getEdges();
@@ -64,7 +65,7 @@ function App() {
 
       {loadInstanceModal && (
         <Modal setOpenModal={setLoadInstanceModal}>
-          <LoadInstanceModal shouldShowStep={shouldShowStep} setShouldShowStep={setShouldShowStep} />
+          <LoadInstanceModal shouldShowStep={shouldShowStep} setShouldShowStep={setShouldShowStep} setInstancesInput={setInstancesInput} readInstances={readInstances} />
         </Modal>
       )}
     </div>

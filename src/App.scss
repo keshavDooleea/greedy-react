@@ -50,6 +50,10 @@ body {
   color: $textColor;
 }
 
+.gray {
+  color: gray;
+}
+
 .App {
   width: 100vw;
   height: 100vh;
@@ -330,4 +334,71 @@ button {
 .templates-container {
   width: 100%;
   height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.template-card {
+  height: 70%;
+  border-radius: $borderRadius;
+  transition: 0.15s box-shadow;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  border: $border;
+
+  &.active-card {
+    background-color: rgba($color: $textColor, $alpha: 0.3);
+  }
+
+  &:hover {
+    box-shadow: 0 0 0 0.5px $textColor;
+  }
+
+  .template-info {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .template-img {
+    width: 100%;
+    flex: 1;
+    margin-top: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: $borderRadius;
+    overflow: hidden;
+    position: relative;
+    background-color: #fff;
+
+    img {
+      max-width: 95%;
+      max-height: 95%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: 0.2s opacity ease-in;
+    }
+
+    .template-empty-img {
+      opacity: 1;
+    }
+
+    .template-completed-img {
+      opacity: 0;
+    }
+
+    &:hover {
+      .template-empty-img {
+        opacity: 0;
+      }
+
+      .template-completed-img {
+        opacity: 1;
+      }
+    }
+  }
 }
