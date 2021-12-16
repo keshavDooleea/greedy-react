@@ -16,15 +16,16 @@ interface ILoadInstanceModal {
 const LoadInstanceModal = ({ shouldShowStep, setShouldShowStep, setInstancesInput, readInstances }: ILoadInstanceModal) => {
   const [currentTemplate, setCurrentTemplate] = useState<ITemplate>();
 
-  const onTemplateClicked = useCallback((template: ITemplate) => {
-    setInstancesInput(removeWhitespace(template.instance));
-    setCurrentTemplate(template);
-  }, []);
-
   // set first template by default
   useEffect(() => {
     onTemplateClicked(TEMPLATE[0]);
-  }, [onTemplateClicked]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onTemplateClicked = (template: ITemplate) => {
+    setInstancesInput(removeWhitespace(template.instance));
+    setCurrentTemplate(template);
+  };
 
   return (
     <div className="instances-container">
