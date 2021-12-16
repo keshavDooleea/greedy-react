@@ -26,6 +26,7 @@ const Workspace = () => {
 
   useEffect(() => {
     p5Types?.loop();
+    p5Types?.background(255);
   }, [greedyData]);
 
   const showDegreeOutput = (degrees: INodeDegree[], maxDegreeNode: number) => {
