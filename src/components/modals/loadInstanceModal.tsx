@@ -18,7 +18,8 @@ const LoadInstanceModal = ({ shouldShowStep, setShouldShowStep, setInstancesInpu
 
   // set first template by default
   useEffect(() => {
-    onTemplateClicked(TEMPLATE[0]);
+    const setInitialTemplate = () => onTemplateClicked(TEMPLATE[0]);
+    setInitialTemplate();
   }, []);
 
   const onTemplateClicked = (template: ITemplate) => {
