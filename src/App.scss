@@ -9,8 +9,10 @@
 
 $sidebar: 250px;
 $navbarHeight: 9vh;
+$borderRadius: 8px;
 $border: 1px solid #ccc;
 $textColor: #9b97b5;
+$secondaryBkg: #f0f1f6;
 
 body {
   width: 100vw;
@@ -44,6 +46,10 @@ body {
   justify-content: center;
 }
 
+.common-header {
+  color: $textColor;
+}
+
 .App {
   width: 100vw;
   height: 100vh;
@@ -64,7 +70,7 @@ main {
   display: flex;
   color: $textColor;
   border-bottom: $border;
-  background-color: #f0f1f6;
+  background-color: $secondaryBkg;
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
@@ -115,7 +121,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f0f1f6;
+  background-color: $secondaryBkg;
   border-left: $border;
 
   .output-container {
@@ -149,7 +155,8 @@ button {
   cursor: pointer;
   border: none;
 
-  &.custom {
+  &.custom-btn {
+    margin: auto;
     background-color: #ecf3fe;
     border: 1px solid #3080eb;
     transition: 0.2s background-color, 0.2s color;
@@ -181,29 +188,31 @@ button {
   .modal-inner {
     width: 80vw;
     height: 80vh;
-    background-color: #ecf3fe;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 0;
     position: relative;
   }
 }
 
-.instances-main {
+.instances-container {
   width: 100%;
-  flex: 1;
+  height: 100%;
   display: flex;
-  padding: 20px;
-  gap: 15px;
 
   .settings {
-    width: 20%;
-    border-right: 2px solid gray;
+    width: $sidebar;
+    border-right: $border;
+    background-color: $secondaryBkg;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 5px;
+    border-radius: $borderRadius 0 0 $borderRadius;
 
     .setting-item {
       margin-top: 20px;
-      padding-right: 20px;
 
       .settings-radio {
         width: 100%;
@@ -226,29 +235,51 @@ button {
       }
     }
   }
+}
 
-  textarea {
+.instances-main {
+  width: calc(100% - #{$sidebar});
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 5px;
+  border-radius: 0 $borderRadius $borderRadius 0;
+
+  .instances-inner-main {
+    width: 100%;
     flex: 1;
-    height: 100%;
-    resize: none;
-    padding: 5px;
-    background-color: #fff;
-    font-size: 1.3rem;
+    display: flex;
+    padding: 10px 10px;
 
-    &:focus {
-      outline: none;
+    textarea {
+      flex: 1;
+      height: 100%;
+      resize: none;
+      padding: 5px;
+      background-color: #fff;
+      font-size: 1.2rem;
+      border: $border;
+      border-radius: 5px;
+
+      &::placeholder {
+        font-family: "Oswald", sans-serif;
+      }
+
+      &:focus {
+        outline: none;
+      }
     }
-  }
 
-  .instances-example {
-    width: 40%;
-    height: 100%;
-    border-radius: 8px;
+    .instances-example {
+      width: 50%;
+      height: 100%;
+      padding-left: 10px;
 
-    .instances-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      .instances-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
     }
   }
 

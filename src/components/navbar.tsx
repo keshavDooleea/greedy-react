@@ -20,7 +20,7 @@ const Navbar = ({ setLoadInstanceModal, setOpenInfoModal }: INavbarProps) => {
       <div className="navbar-options">
         <button onClick={() => setLoadInstanceModal(true)} disabled={isGreedyCompleted}>
           <FontAwesomeIcon icon={faPlusSquare} className="m-r" />
-          Load Instances
+          Create Instance
         </button>
         <button onClick={() => setOpenInfoModal(true)} disabled={isGreedyCompleted}>
           <FontAwesomeIcon icon={faInfoCircle} className="m-r" />
