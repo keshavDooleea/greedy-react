@@ -10,6 +10,7 @@ import Sidebar from "./components/sidebar";
 import Workspace from "./components/workspace";
 import { INITIAL_MATRIX } from "./lib/constants";
 import { IEdge, IVertice } from "./lib/interfaces";
+import { removeWhitespace } from "./lib/utils";
 import { GraphService } from "./services/graphService";
 import { OutputService } from "./services/outputService";
 import { SettingsService } from "./services/settingsService";
@@ -23,8 +24,7 @@ function App() {
   const outputService = OutputService.getInstance();
   const settingsService = SettingsService.getInstance();
   const [shouldShowStep, setShouldShowStep] = useState<boolean>(settingsService.getShouldShowStep());
-
-  const [instancesInput, setInstancesInput] = useState<string>(INITIAL_MATRIX);
+  const [instancesInput, setInstancesInput] = useState<string>(removeWhitespace(INITIAL_MATRIX));
   const dispatch = useDispatch();
 
   const readInstances = () => {
