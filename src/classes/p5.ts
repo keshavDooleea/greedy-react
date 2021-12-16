@@ -1,10 +1,12 @@
 import p5Types from "p5";
 import { IEdge, IVertice } from "../lib/interfaces";
+import { SettingsService } from "../services/settingsService";
 
 export class MyP5 {
   private width: number;
   private height: number;
   private nodeRadius = 30;
+  private settingsService: SettingsService = SettingsService.getInstance();
 
   constructor(width: number, height: number) {
     this.width = width;
@@ -52,6 +54,8 @@ export class MyP5 {
 
   // @todo: draw behind the current vertice from trigonometry
   drawNodeValue = (p5: p5Types, vertice: IVertice, value: string, color: string) => {
+    if (!this.settingsService.getShouldShowStep()) return;
+
     p5.fill(color);
     p5.textSize(20);
     p5.text(value, vertice.x! + 40, vertice.y!);

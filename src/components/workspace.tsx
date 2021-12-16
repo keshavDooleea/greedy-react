@@ -8,7 +8,7 @@ import { Greedy } from "../classes/greedy";
 import { GraphService } from "../services/graphService";
 import { COLORS, WHITE_COLOR } from "../lib/constants";
 import { OutputColors } from "../lib/enum";
-import { getMiddleTime, getShortTime, sleep } from "../lib/utils";
+import { sleep } from "../lib/utils";
 import { OutputService } from "../services/outputService";
 import { setGreedyHasFinished } from "../store/actions";
 import { SettingsService } from "../services/settingsService";
@@ -56,22 +56,22 @@ const Workspace = () => {
   const drawInitialGraph = async (p5: p5Types) => {
     outputService.showNbOfNodes(greedyData.vertices);
     for (let i = 0; i < greedyData.vertices.length; i++) {
-      await sleep(getShortTime(settingsService.getTimeDelay()));
+      await sleep(settingsService.getShortTime());
       myP5.drawVertice(p5, greedyData.vertices.length, greedyData.vertices[i]);
     }
 
     outputService.showNbOfEdges(greedyData.edges);
     for (let i = 0; i < greedyData.edges.length; i++) {
-      await sleep(getShortTime(settingsService.getTimeDelay()));
+      await sleep(settingsService.getShortTime());
       myP5.drawEdge(p5, greedyData.edges[i], greedyData.vertices);
     }
 
     hasGeneratedGraph = true;
     outputService.dispatchOutput({ isTitle: true, text: "Starting Greedy algorithm" });
     outputService.dispatchOutput({ isTitle: false, text: "Choosing node with highest degree to start with" });
-    await sleep(getShortTime(settingsService.getTimeDelay()));
+    await sleep(settingsService.getShortTime());
     myP5.drawGraph(p5, greedyData.edges, greedyData.vertices);
-    await sleep(getMiddleTime(settingsService.getTimeDelay()));
+    await sleep(settingsService.getMiddleTime());
 
     p5.loop();
   };
@@ -107,7 +107,7 @@ const Workspace = () => {
       if (unvisitedNodesNb > 0) {
         p5.noLoop();
         outputService.showCustom({ text: `${unvisitedNodesNb} node${unvisitedNodesNb > 1 ? "s" : ""} to color`, isTitle: true });
-        console.count("iterations");
+        // console.count("iterations");
 
         // select next optimum node
         const nextNode = await greedy.greedyChoice(p5, myP5, greedyData.edges, greedyData.vertices);

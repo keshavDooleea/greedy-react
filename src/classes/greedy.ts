@@ -4,7 +4,7 @@ import { GraphService } from "../services/graphService";
 import { MyP5 } from "./p5";
 import p5Types from "p5";
 import { OutputService } from "../services/outputService";
-import { getMiddleTime, sleep } from "../lib/utils";
+import { sleep } from "../lib/utils";
 import { OutputColors } from "../lib/enum";
 import { SettingsService } from "../services/settingsService";
 
@@ -24,7 +24,7 @@ export class Greedy {
 
     // get number of colors for each neighbor
     this.outputService.showDSAT();
-    await sleep(getMiddleTime(this.settingsService.getTimeDelay()));
+    await sleep(this.settingsService.getMiddleTime());
     const DSATList: IDsat[] = [];
     unvisitedNodes.forEach((unvisitedNode) => {
       const dsatValue = this.graphService.calculateDSAT(edges, vertices, unvisitedNode);

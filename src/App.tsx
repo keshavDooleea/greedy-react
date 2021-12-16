@@ -34,6 +34,7 @@ function App() {
     dispatch(setGreedy({ vertices, edges }));
     dispatch(setGreedyHasStarted());
 
+    settingsService.setNbNodes(vertices.length);
     settingsService.setShouldShowStep(shouldShowStep);
   };
 
@@ -55,6 +56,7 @@ function App() {
 
                 <div className="setting-item">
                   <h4>Show nodes info in graph</h4>
+                  <small>Whether to show informations next to each vertice during execution</small>
                   <div className="settings-radio">
                     <span>
                       <input type="radio" id="yes-step" name="show-step" value="Yes" checked={shouldShowStep} onChange={() => setShouldShowStep(true)} />
@@ -69,6 +71,7 @@ function App() {
 
                 <div className="setting-item">
                   <h4>Delay in between steps (ms)</h4>
+                  <small>If show-nodes above is checked to Yes, then this delay will be applied between each step. If not, the algorithm will take (delay / nodes length) per node to complete.</small>
                   <input type="number" id="delay-input" defaultValue={settingsService.getTimeDelay()} onChange={(e) => settingsService.setTimeDelay(Number(e.target.value))} />
                 </div>
               </div>
