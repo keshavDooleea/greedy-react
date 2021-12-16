@@ -6,11 +6,12 @@ import { IGreedy, INodeDegree } from "../lib/interfaces";
 import { MyP5 } from "../classes/p5";
 import { Greedy } from "../classes/greedy";
 import { GraphService } from "../services/graphService";
-import { COLORS, LONG_TIME_SLEEP, WHITE_COLOR } from "../lib/constants";
+import { COLORS, WHITE_COLOR } from "../lib/constants";
 import { OutputColors } from "../lib/enum";
 import { getMiddleTime, getShortTime, sleep } from "../lib/utils";
 import { OutputService } from "../services/outputService";
 import { setGreedyHasFinished } from "../store/actions";
+import { SettingsService } from "../services/settingsService";
 
 const Workspace = () => {
   const [width, setWidth] = useState<number>(0);
@@ -19,6 +20,7 @@ const Workspace = () => {
   const greedyData: IGreedy = useSelector((state: RootStateOrAny) => state.greedyReducer);
   const outputService = OutputService.getInstance();
   const graphService = GraphService.getInstance();
+  const settingsService = SettingsService.getInstance();
   let myP5: MyP5;
   let greedy: Greedy;
   let hasGeneratedGraph = false;
@@ -54,22 +56,22 @@ const Workspace = () => {
   const drawInitialGraph = async (p5: p5Types) => {
     outputService.showNbOfNodes(greedyData.vertices);
     for (let i = 0; i < greedyData.vertices.length; i++) {
-      await sleep(getShortTime());
+      await sleep(getShortTime(settingsService.getTimeDelay()));
       myP5.drawVertice(p5, greedyData.vertices.length, greedyData.vertices[i]);
     }
 
     outputService.showNbOfEdges(greedyData.edges);
     for (let i = 0; i < greedyData.edges.length; i++) {
-      await sleep(getShortTime());
+      await sleep(getShortTime(settingsService.getTimeDelay()));
       myP5.drawEdge(p5, greedyData.edges[i], greedyData.vertices);
     }
 
     hasGeneratedGraph = true;
     outputService.dispatchOutput({ isTitle: true, text: "Starting Greedy algorithm" });
     outputService.dispatchOutput({ isTitle: false, text: "Choosing node with highest degree to start with" });
-    await sleep(getShortTime());
+    await sleep(getShortTime(settingsService.getTimeDelay()));
     myP5.drawGraph(p5, greedyData.edges, greedyData.vertices);
-    await sleep(getMiddleTime());
+    await sleep(getMiddleTime(settingsService.getTimeDelay()));
 
     p5.loop();
   };
@@ -109,7 +111,7 @@ const Workspace = () => {
 
         // select next optimum node
         const nextNode = await greedy.greedyChoice(p5, myP5, greedyData.edges, greedyData.vertices);
-        await sleep(LONG_TIME_SLEEP);
+        await sleep(settingsService.getTimeDelay());
         const smallestColorIndex = await greedy.findSmallestColorIndex(greedyData.edges, greedyData.vertices, nextNode);
 
         // update next node's color to smallest possible color

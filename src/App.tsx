@@ -5,10 +5,11 @@ import Modal from "./components/modal";
 import Navbar from "./components/navbar";
 import Sidebar from "./components/sidebar";
 import Workspace from "./components/workspace";
-import { INITIAL_MATRIX, LONG_TIME_SLEEP } from "./lib/constants";
+import { INITIAL_MATRIX } from "./lib/constants";
 import { IEdge, IVertice } from "./lib/interfaces";
 import { GraphService } from "./services/graphService";
 import { OutputService } from "./services/outputService";
+import { SettingsService } from "./services/settingsService";
 import { setGreedy, setGreedyHasStarted } from "./store/actions";
 
 function App() {
@@ -16,6 +17,8 @@ function App() {
   const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
   const graphService = GraphService.getInstance();
   const outputService = OutputService.getInstance();
+  const settingsService = SettingsService.getInstance();
+  const [shouldShowStep, setShouldShowStep] = useState<boolean>(settingsService.getShouldShowStep());
 
   const [instancesInput, setInstancesInput] = useState<String>(INITIAL_MATRIX);
   const dispatch = useDispatch();
@@ -30,6 +33,8 @@ function App() {
 
     dispatch(setGreedy({ vertices, edges }));
     dispatch(setGreedyHasStarted());
+
+    settingsService.setShouldShowStep(shouldShowStep);
   };
 
   return (
@@ -45,6 +50,28 @@ function App() {
           <>
             <h2>Enter your own instance</h2>
             <div className="instances-main">
+              <div className="settings">
+                <h3>Settings</h3>
+
+                <div className="setting-item">
+                  <h4>Show nodes info in graph</h4>
+                  <div className="settings-radio">
+                    <span>
+                      <input type="radio" id="yes-step" name="show-step" value="Yes" checked={shouldShowStep} onChange={() => setShouldShowStep(true)} />
+                      <label htmlFor="yes-step">Yes</label>
+                    </span>
+                    <span>
+                      <input type="radio" id="no-step" name="show-step" value="No" checked={!shouldShowStep} onChange={() => setShouldShowStep(false)} />
+                      <label htmlFor="no-step">No</label>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="setting-item">
+                  <h4>Delay in between steps (ms)</h4>
+                  <input type="number" id="delay-input" defaultValue={settingsService.getTimeDelay()} onChange={(e) => settingsService.setTimeDelay(Number(e.target.value))} />
+                </div>
+              </div>
               <textarea
                 className="c-r default-text"
                 placeholder="Enter an Adjacency matrix (filled with 0 and 1)"
@@ -71,13 +98,6 @@ function App() {
                     <p>0 1 1 0 1</p>
                     <p>0 0 1 1 0</p>
                   </div>
-                </div>
-
-                <div className="instructions">
-                  <p>
-                    A delay of <strong>{LONG_TIME_SLEEP}</strong>ms has been added in between the steps by default! <br />
-                    (in order to show the details of each step which I will add soon)
-                  </p>
                 </div>
               </div>
             </div>

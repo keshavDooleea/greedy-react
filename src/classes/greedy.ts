@@ -1,4 +1,4 @@
-import { COLORS, DSAT_COLOR, LONG_TIME_SLEEP, SELECTED_DSAT_COLOR, SELECTED_DSAT_NODE } from "../lib/constants";
+import { COLORS, DSAT_COLOR, SELECTED_DSAT_COLOR, SELECTED_DSAT_NODE } from "../lib/constants";
 import { IDsat, IEdge, IVertice } from "../lib/interfaces";
 import { GraphService } from "../services/graphService";
 import { MyP5 } from "./p5";
@@ -6,14 +6,16 @@ import p5Types from "p5";
 import { OutputService } from "../services/outputService";
 import { getMiddleTime, sleep } from "../lib/utils";
 import { OutputColors } from "../lib/enum";
+import { SettingsService } from "../services/settingsService";
 
 export class Greedy {
   private graphService = GraphService.getInstance();
   private outputService = OutputService.getInstance();
+  private settingsService = SettingsService.getInstance();
 
   // wait and remove text nodes
   refreshGraph = async (p5: p5Types, myP5: MyP5, edges: IEdge[], vertices: IVertice[]) => {
-    await sleep(LONG_TIME_SLEEP * 2);
+    await sleep(this.settingsService.getTimeDelay() * 2);
     myP5.drawGraph(p5, edges, vertices);
   };
 
@@ -22,7 +24,7 @@ export class Greedy {
 
     // get number of colors for each neighbor
     this.outputService.showDSAT();
-    await sleep(getMiddleTime());
+    await sleep(getMiddleTime(this.settingsService.getTimeDelay()));
     const DSATList: IDsat[] = [];
     unvisitedNodes.forEach((unvisitedNode) => {
       const dsatValue = this.graphService.calculateDSAT(edges, vertices, unvisitedNode);

@@ -26,7 +26,9 @@ const Sidebar = ({ setLoadInstanceModal, setOpenInfoModal }: ISidebarProps) => {
           <button onClick={() => setLoadInstanceModal(true)} disabled={isGreedyCompleted}>
             Load Instances
           </button>
-          <button onClick={() => setOpenInfoModal(true)}>Info</button>
+          <button onClick={() => setOpenInfoModal(true)} disabled={isGreedyCompleted}>
+            Info
+          </button>
         </header>
 
         <div className="output-container" ref={outputDivRef}>
