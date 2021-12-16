@@ -40,11 +40,11 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
       <main>
+        <Navbar setLoadInstanceModal={setLoadInstanceModal} setOpenInfoModal={setOpenInfoModal} />
         <Workspace />
-        <Sidebar setLoadInstanceModal={setLoadInstanceModal} setOpenInfoModal={setOpenInfoModal} />
       </main>
+      <Sidebar />
 
       {loadInstanceModal && (
         <Modal setOpenModal={setLoadInstanceModal}>
@@ -72,7 +72,7 @@ function App() {
                 <div className="setting-item">
                   <h4>Delay in between steps (ms)</h4>
                   <small>If show-nodes above is checked to Yes, then this delay will be applied between each step. If not, the algorithm will take (delay / nodes length) per node to complete.</small>
-                  <input type="number" id="delay-input" defaultValue={settingsService.getTimeDelay()} onChange={(e) => settingsService.setTimeDelay(Number(e.target.value))} />
+                  <input type="number" step={500} id="delay-input" defaultValue={settingsService.getTimeDelay()} onChange={(e) => settingsService.setTimeDelay(Number(e.target.value))} />
                 </div>
               </div>
               <textarea
