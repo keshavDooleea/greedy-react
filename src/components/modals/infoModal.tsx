@@ -8,13 +8,6 @@ const InfoModal = () => {
 
         <p>explain Greedy..</p>
       </div>
-
-      <p className="github">
-        View code on Github:{" "}
-        <a href="https://github.com/keshavDooleea/greedy-react" target="_blank" rel="noreferrer">
-          https://github.com/keshavDooleea/greedy-react
-        </a>
-      </p>
     </>
   );
 };
