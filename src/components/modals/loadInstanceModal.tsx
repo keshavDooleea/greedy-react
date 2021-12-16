@@ -18,8 +18,8 @@ const LoadInstanceModal = ({ shouldShowStep, setShouldShowStep, setInstancesInpu
 
   // set first template by default
   useEffect(() => {
-    const setInitialTemplate = () => onTemplateClicked(TEMPLATE[0]);
-    setInitialTemplate();
+    onTemplateClicked(TEMPLATE[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onTemplateClicked = (template: ITemplate) => {
