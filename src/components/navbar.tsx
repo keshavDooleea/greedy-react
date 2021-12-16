@@ -1,14 +1,15 @@
-import { faPlusSquare, faProjectDiagram, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlusSquare, faProjectDiagram, faInfoCircle, faHandPointer } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dispatch, SetStateAction } from "react";
 import { RootStateOrAny, useSelector } from "react-redux";
 
 interface INavbarProps {
-  setLoadInstanceModal: Dispatch<SetStateAction<boolean>>;
+  setCreateInstanceModal: Dispatch<SetStateAction<boolean>>;
   setOpenInfoModal: Dispatch<SetStateAction<boolean>>;
+  setLoadInstanceModal: Dispatch<SetStateAction<boolean>>;
 }
 
-const Navbar = ({ setLoadInstanceModal, setOpenInfoModal }: INavbarProps) => {
+const Navbar = ({ setCreateInstanceModal, setOpenInfoModal, setLoadInstanceModal }: INavbarProps) => {
   const isGreedyCompleted: boolean = useSelector((state: RootStateOrAny) => state.greedyStatusReducer);
 
   return (
@@ -18,9 +19,13 @@ const Navbar = ({ setLoadInstanceModal, setOpenInfoModal }: INavbarProps) => {
         <h3>Greedy Algorithm Visualization</h3>
       </div>
       <div className="navbar-options">
-        <button onClick={() => setLoadInstanceModal(true)} disabled={isGreedyCompleted}>
+        <button onClick={() => setCreateInstanceModal(true)} disabled={isGreedyCompleted}>
           <FontAwesomeIcon icon={faPlusSquare} className="m-r" />
-          Create Instance
+          Create Own Instance
+        </button>
+        <button onClick={() => setLoadInstanceModal(true)} disabled={isGreedyCompleted}>
+          <FontAwesomeIcon icon={faHandPointer} className="m-r" />
+          Load Custom Instance
         </button>
         <button onClick={() => setOpenInfoModal(true)} disabled={isGreedyCompleted}>
           <FontAwesomeIcon icon={faInfoCircle} className="m-r" />

@@ -15,6 +15,7 @@ import { SettingsService } from "./services/settingsService";
 import { setGreedy, setGreedyHasStarted } from "./store/actions";
 
 function App() {
+  const [createInstanceModal, setCreateInstanceModal] = useState<boolean>(false);
   const [loadInstanceModal, setLoadInstanceModal] = useState<boolean>(false);
   const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
   const graphService = GraphService.getInstance();
@@ -26,7 +27,7 @@ function App() {
   const dispatch = useDispatch();
 
   const readInstances = () => {
-    setLoadInstanceModal(false);
+    setCreateInstanceModal(false);
     outputService.clearOutputs();
     graphService.setGraphInput(instancesInput.trim());
 
@@ -43,13 +44,13 @@ function App() {
   return (
     <div className="App">
       <main>
-        <Navbar setLoadInstanceModal={setLoadInstanceModal} setOpenInfoModal={setOpenInfoModal} />
+        <Navbar setCreateInstanceModal={setCreateInstanceModal} setOpenInfoModal={setOpenInfoModal} setLoadInstanceModal={setLoadInstanceModal} />
         <Workspace />
       </main>
       <Sidebar />
 
-      {loadInstanceModal && (
-        <Modal setOpenModal={setLoadInstanceModal}>
+      {createInstanceModal && (
+        <Modal setOpenModal={setCreateInstanceModal}>
           <div className="instances-container ">
             <div className="settings">
               <div className="flex common-header">
@@ -142,6 +143,14 @@ function App() {
                 https://github.com/keshavDooleea/greedy-react
               </a>
             </p>
+          </>
+        </Modal>
+      )}
+
+      {loadInstanceModal && (
+        <Modal setOpenModal={setLoadInstanceModal}>
+          <>
+            <h2>create</h2>
           </>
         </Modal>
       )}
