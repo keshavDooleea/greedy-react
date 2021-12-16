@@ -1,5 +1,5 @@
 import { IAction, IGreedy, IOutput } from "../../lib/interfaces";
-import { GREEDY_HAS_STARTED, GREEDY_HAS_FINISHED, NEW_OUTPUT, SET_GREEDY_INPUT } from "./action_names";
+import { GREEDY_HAS_STARTED, GREEDY_HAS_FINISHED, NEW_OUTPUT, SET_GREEDY_INPUT, CLEAR_OUTPUT } from "./action_names";
 
 // what we want to do
 export const setGreedy = (greedy: IGreedy): IAction<IGreedy> => {
@@ -13,6 +13,13 @@ export const showOutput = (output: IOutput): IAction<IOutput> => {
   return {
     type: NEW_OUTPUT,
     data: output,
+  };
+};
+
+export const clearOutputs = (): IAction<string> => {
+  return {
+    type: CLEAR_OUTPUT,
+    data: "",
   };
 };
 

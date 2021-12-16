@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { DSAT_COLOR } from "../lib/constants";
 import { IEdge, IOutput, IVertice } from "../lib/interfaces";
-import { showOutput } from "../store/actions";
+import { clearOutputs, showOutput } from "../store/actions";
 
 // singleton to dispatch events to show current detail/step on sidebar -> read in Sidebar.tsx
 export class OutputService {
@@ -15,6 +15,8 @@ export class OutputService {
 
     return this.instance as OutputService;
   };
+
+  clearOutputs = () => this.dispatch(clearOutputs());
 
   dispatchOutput = (output: IOutput) => this.dispatch(showOutput(output));
 

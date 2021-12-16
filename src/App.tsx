@@ -8,18 +8,21 @@ import Workspace from "./components/workspace";
 import { INITIAL_MATRIX, LONG_TIME_SLEEP } from "./lib/constants";
 import { IEdge, IVertice } from "./lib/interfaces";
 import { GraphService } from "./services/graphService";
+import { OutputService } from "./services/outputService";
 import { setGreedy, setGreedyHasStarted } from "./store/actions";
 
 function App() {
   const [loadInstanceModal, setLoadInstanceModal] = useState<boolean>(false);
   const [openInfoModal, setOpenInfoModal] = useState<boolean>(false);
   const graphService = GraphService.getInstance();
+  const outputService = OutputService.getInstance();
 
   const [instancesInput, setInstancesInput] = useState<String>(INITIAL_MATRIX);
   const dispatch = useDispatch();
 
   const readInstances = () => {
     setLoadInstanceModal(false);
+    outputService.clearOutputs();
     graphService.setGraphInput(instancesInput.trim());
 
     const vertices: IVertice[] = graphService.getVertices();
