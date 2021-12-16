@@ -1,6 +1,6 @@
 import { faCodeBranch, faHandPointDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ITemplate } from "../../lib/interfaces";
 import { TEMPLATE } from "../../lib/template";
 import { removeWhitespace } from "../../lib/utils";
