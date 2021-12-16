@@ -13,7 +13,7 @@ const Navbar = ({ setLoadInstanceModal, setOpenInfoModal }: INavbarProps) => {
 
   return (
     <div className="navbar">
-      <div className="flex">
+      <div className="flex logo">
         <FontAwesomeIcon icon={faProjectDiagram} className="m-r-2" />
         <h3>Greedy Algorithm Visualization</h3>
       </div>

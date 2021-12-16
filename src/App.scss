@@ -75,6 +75,10 @@ main {
   justify-content: space-between;
   padding: 0 10px;
 
+  .logo * {
+    font-family: "Oswald", sans-serif;
+  }
+
   .navbar-options {
     height: 100%;
 
