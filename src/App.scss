@@ -127,6 +127,7 @@ main {
   align-items: center;
   background-color: $secondaryBkg;
   border-left: $border;
+  z-index: 2;
 
   .output-container {
     width: 100%;
@@ -153,6 +154,23 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.canvas-action {
+  position: absolute;
+  top: 8px;
+  right: -50%;
+  font-size: 2rem;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+  color: $textColor;
+  cursor: pointer;
+  transition: 0.5s right;
+  display: none;
+
+  &.show-action {
+    right: 18px;
+  }
 }
 
 button {
@@ -188,6 +206,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 3;
 
   .modal-inner {
     width: 80vw;

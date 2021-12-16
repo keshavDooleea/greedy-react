@@ -12,24 +12,34 @@ import { sleep } from "../lib/utils";
 import { OutputService } from "../services/outputService";
 import { setGreedyHasFinished } from "../store/actions";
 import { SettingsService } from "../services/settingsService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPauseCircle, faPlayCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Workspace = () => {
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
   const [p5Types, setP5Types] = useState<p5Types>();
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [hasGeneratedGraph, setHasGeneratedGraph] = useState<boolean>(false);
   const greedyData: IGreedy = useSelector((state: RootStateOrAny) => state.greedyReducer);
+  const isGreedyCompleted: boolean = useSelector((state: RootStateOrAny) => state.greedyStatusReducer);
   const outputService = OutputService.getInstance();
   const graphService = GraphService.getInstance();
   const settingsService = SettingsService.getInstance();
+  const dispatch = useDispatch();
   let myP5: MyP5;
   let greedy: Greedy;
-  let hasGeneratedGraph = false;
-  const dispatch = useDispatch();
 
+  // restart drawing
   useEffect(() => {
     p5Types?.loop();
     p5Types?.background(255);
   }, [greedyData, p5Types]);
+
+  // pause/unpause output message
+  useEffect(() => {
+    if (isGreedyCompleted) outputService.showIsPaused(isPaused);
+  }, [isPaused, setIsPaused]);
 
   const showDegreeOutput = (degrees: INodeDegree[], maxDegreeNode: number) => {
     outputService.dispatchOutput({ text: `Coloring chosen node: #${greedyData.vertices[maxDegreeNode].nb}`, isTitle: true });
@@ -66,7 +76,7 @@ const Workspace = () => {
       myP5.drawEdge(p5, greedyData.edges[i], greedyData.vertices);
     }
 
-    hasGeneratedGraph = true;
+    setHasGeneratedGraph(true);
     outputService.dispatchOutput({ isTitle: true, text: "Starting Greedy algorithm" });
     outputService.dispatchOutput({ isTitle: false, text: "Choosing node with highest degree to start with" });
     await sleep(settingsService.getShortTime());
@@ -78,6 +88,7 @@ const Workspace = () => {
 
   const draw = async (p5: p5Types) => {
     if (!myP5) myP5 = new MyP5(width, height);
+    if (isPaused) return;
 
     if (greedyData.vertices != null) {
       if (!greedy) greedy = new Greedy();
@@ -124,11 +135,20 @@ const Workspace = () => {
         outputService.showNbOfColors(graphService.getNbOfColorsUsed(greedyData.vertices));
         dispatch(setGreedyHasFinished());
         p5.noLoop();
+        setHasGeneratedGraph(false);
       }
     }
   };
 
-  return <Sketch setup={setup} draw={draw} className="workspace" />;
+  return (
+    <div className="workspace">
+      <Sketch setup={setup} draw={draw} />
+
+      <div className={`canvas-action ${hasGeneratedGraph ? "show-action" : ""}`}>
+        <FontAwesomeIcon icon={isPaused ? faPlayCircle : faPauseCircle} onClick={() => setIsPaused((wasPaused) => !wasPaused)} />
+      </div>
+    </div>
+  );
 };
 
 export default Workspace;

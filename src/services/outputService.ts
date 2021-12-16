@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { DSAT_COLOR } from "../lib/constants";
+import { DSAT_COLOR, PAUSE_UNPAUSE_COLOR } from "../lib/constants";
 import { IEdge, IOutput, IVertice } from "../lib/interfaces";
 import { clearOutputs, showOutput } from "../store/actions";
 
@@ -31,4 +31,9 @@ export class OutputService {
   };
 
   showDSAT = () => this.dispatchOutput({ isTitle: false, text: `Calculating DSAT values of remaining nodes`, color: DSAT_COLOR });
+
+  showIsPaused = (isPaused: boolean) => {
+    const text = isPaused ? "Pausing before next iteration" : "Resuming algorithm";
+    this.dispatchOutput({ isTitle: false, text, color: PAUSE_UNPAUSE_COLOR });
+  };
 }
