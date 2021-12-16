@@ -14,11 +14,11 @@ interface ILoadInstanceModal {
 }
 
 const LoadInstanceModal = ({ shouldShowStep, setShouldShowStep, setInstancesInput, readInstances }: ILoadInstanceModal) => {
-  const [currentTemplate, setCurrentTemplate] = useState<ITemplate>(TEMPLATE[0]);
+  const [currentTemplate, setCurrentTemplate] = useState<ITemplate>();
 
   // set first template by default
   useEffect(() => {
-    onTemplateClicked(currentTemplate);
+    onTemplateClicked(TEMPLATE[0]);
   }, []);
 
   const onTemplateClicked = (template: ITemplate) => {

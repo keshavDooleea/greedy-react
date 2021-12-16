@@ -22,7 +22,7 @@ const Workspace = () => {
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [hasGeneratedGraph, setHasGeneratedGraph] = useState<boolean>(false);
   const greedyData: IGreedy = useSelector((state: RootStateOrAny) => state.greedyReducer);
-  const isGreedyCompleted: boolean = useSelector((state: RootStateOrAny) => state.greedyStatusReducer);
+  // const isGreedyCompleted: boolean = useSelector((state: RootStateOrAny) => state.greedyStatusReducer);
   const outputService = OutputService.getInstance();
   const graphService = GraphService.getInstance();
   const settingsService = SettingsService.getInstance();
@@ -37,9 +37,9 @@ const Workspace = () => {
   }, [greedyData, p5Types]);
 
   // pause/unpause output message
-  useEffect(() => {
-    if (isGreedyCompleted) outputService.showIsPaused(isPaused);
-  }, [isPaused, setIsPaused]);
+  // useEffect(() => {
+  //   if (isGreedyCompleted) outputService.showIsPaused(isPaused);
+  // }, [isPaused, setIsPaused]);
 
   const showDegreeOutput = (degrees: INodeDegree[], maxDegreeNode: number) => {
     outputService.dispatchOutput({ text: `Coloring chosen node: #${greedyData.vertices[maxDegreeNode].nb}`, isTitle: true });
