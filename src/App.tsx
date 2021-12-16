@@ -64,7 +64,7 @@ function App() {
 
       {loadInstanceModal && (
         <Modal setOpenModal={setLoadInstanceModal}>
-          <LoadInstanceModal />
+          <LoadInstanceModal shouldShowStep={shouldShowStep} setShouldShowStep={setShouldShowStep} />
         </Modal>
       )}
     </div>
