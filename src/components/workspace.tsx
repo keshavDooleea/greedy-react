@@ -27,7 +27,7 @@ const Workspace = () => {
   useEffect(() => {
     p5Types?.loop();
     p5Types?.background(255);
-  }, [greedyData]);
+  }, [greedyData, p5Types]);
 
   const showDegreeOutput = (degrees: INodeDegree[], maxDegreeNode: number) => {
     outputService.dispatchOutput({ text: `Coloring chosen node: #${greedyData.vertices[maxDegreeNode].nb}`, isTitle: true });
