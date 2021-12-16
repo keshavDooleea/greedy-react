@@ -1,9 +1,10 @@
-import { faCog, faPenFancy } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import "./App.scss";
 import Modal from "./components/modal";
+import CreateInstanceModal from "./components/modals/createInstanceModal";
+import InfoModal from "./components/modals/infoModal";
+import LoadInstanceModal from "./components/modals/loadInstanceModal";
 import Navbar from "./components/navbar";
 import Sidebar from "./components/sidebar";
 import Workspace from "./components/workspace";
@@ -23,7 +24,7 @@ function App() {
   const settingsService = SettingsService.getInstance();
   const [shouldShowStep, setShouldShowStep] = useState<boolean>(settingsService.getShouldShowStep());
 
-  const [instancesInput, setInstancesInput] = useState<String>(INITIAL_MATRIX);
+  const [instancesInput, setInstancesInput] = useState<string>(INITIAL_MATRIX);
   const dispatch = useDispatch();
 
   const readInstances = () => {
@@ -51,107 +52,19 @@ function App() {
 
       {createInstanceModal && (
         <Modal setOpenModal={setCreateInstanceModal}>
-          <div className="instances-container ">
-            <div className="settings">
-              <div className="flex common-header">
-                <FontAwesomeIcon icon={faCog} className="m-r" />
-                <h3>Settings</h3>
-              </div>
-
-              <div className="setting-item">
-                <h4>Show nodes info in graph</h4>
-                <small>Whether to show informations next to each vertice during execution</small>
-                <div className="settings-radio">
-                  <span>
-                    <input type="radio" id="yes-step" name="show-step" value="Yes" checked={shouldShowStep} onChange={() => setShouldShowStep(true)} />
-                    <label htmlFor="yes-step">Yes</label>
-                  </span>
-                  <span>
-                    <input type="radio" id="no-step" name="show-step" value="No" checked={!shouldShowStep} onChange={() => setShouldShowStep(false)} />
-                    <label htmlFor="no-step">No</label>
-                  </span>
-                </div>
-              </div>
-
-              <div className="setting-item">
-                <h4>Delay in between steps (ms)</h4>
-                <small>If show-nodes above is checked to Yes, then this delay will be applied between each step. If not, the algorithm will take (delay / nodes length) per node to complete.</small>
-                <input type="number" step={500} id="delay-input" defaultValue={settingsService.getTimeDelay()} onChange={(e) => settingsService.setTimeDelay(Number(e.target.value))} />
-              </div>
-            </div>
-
-            <div className="instances-main">
-              <div className="flex common-header">
-                <FontAwesomeIcon icon={faPenFancy} className="m-r" />
-                <h3>Create your own instance</h3>
-              </div>
-
-              <div className="instances-inner-main">
-                <textarea
-                  className="default-text"
-                  placeholder="Enter an Adjacency matrix (filled with 0 and 1)"
-                  defaultValue={(graphService.getGraphInput() as string) || INITIAL_MATRIX}
-                  onChange={(e) => {
-                    setInstancesInput(e.target.value.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, ""));
-                  }}
-                ></textarea>
-
-                <div className="instances-example">
-                  <div className="instances-title">
-                    <h3>Some examples of instance input</h3>
-                    <p>(Adjacency Matrix)</p>
-                  </div>
-                  <div className="two-columns default-text">
-                    <div>
-                      {INITIAL_MATRIX.split("\n").map((line, index) => (
-                        <p key={index}>{line}</p>
-                      ))}
-                    </div>
-                    <div>
-                      <p>0 1 0 0 0</p>
-                      <p>1 0 1 1 0</p>
-                      <p>0 1 0 1 1</p>
-                      <p>0 1 1 0 1</p>
-                      <p>0 0 1 1 0</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <button className="c-r custom-btn" onClick={readInstances}>
-                Execute
-              </button>
-            </div>
-          </div>
+          <CreateInstanceModal shouldShowStep={shouldShowStep} setShouldShowStep={setShouldShowStep} setInstancesInput={setInstancesInput} readInstances={readInstances} />
         </Modal>
       )}
 
       {openInfoModal && (
         <Modal setOpenModal={setOpenInfoModal}>
-          <>
-            <h2>Information on this Website</h2>
-
-            <div className="middle">
-              <p>This visualization was made on React JS (with TypeScript) using the library P5.js and Redux Store on the 15th of December 2021</p>
-
-              <p>explain Greedy..</p>
-            </div>
-
-            <p className="github">
-              View code on Github:{" "}
-              <a href="https://github.com/keshavDooleea/greedy-react" target="_blank" rel="noreferrer">
-                https://github.com/keshavDooleea/greedy-react
-              </a>
-            </p>
-          </>
+          <InfoModal />
         </Modal>
       )}
 
       {loadInstanceModal && (
         <Modal setOpenModal={setLoadInstanceModal}>
-          <>
-            <h2>create</h2>
-          </>
+          <LoadInstanceModal />
         </Modal>
       )}
     </div>
