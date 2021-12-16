@@ -31,8 +31,8 @@ export const TEMPLATE: ITemplate[] = [
   {
     id: "30_0",
     nbVertices: 30,
-    nbEdges: 10,
-    nbColors: 9,
+    nbEdges: 214,
+    nbColors: 8,
     instance: `0 0 0 1 0 1 1 1 1 0 0 1 0 1 1 0 1 1 0 0 1 0 0 0 0 1 0 1 0 0 
                 0 0 1 1 0 1 0 0 1 1 0 1 0 0 1 0 1 1 0 1 1 1 1 0 1 0 1 1 0 1 
                 0 1 0 1 0 1 0 0 1 1 1 0 1 0 1 1 0 0 0 0 0 0 1 1 1 1 1 0 1 0 

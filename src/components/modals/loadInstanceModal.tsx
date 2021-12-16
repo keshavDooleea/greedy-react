@@ -1,6 +1,6 @@
 import { faCodeBranch, faHandPointDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { ITemplate } from "../../lib/interfaces";
 import { TEMPLATE } from "../../lib/template";
 import { removeWhitespace } from "../../lib/utils";
@@ -16,16 +16,15 @@ interface ILoadInstanceModal {
 const LoadInstanceModal = ({ shouldShowStep, setShouldShowStep, setInstancesInput, readInstances }: ILoadInstanceModal) => {
   const [currentTemplate, setCurrentTemplate] = useState<ITemplate>();
 
+  const onTemplateClicked = useCallback((template: ITemplate) => {
+    setInstancesInput(removeWhitespace(template.instance));
+    setCurrentTemplate(template);
+  }, []);
+
   // set first template by default
   useEffect(() => {
     onTemplateClicked(TEMPLATE[0]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onTemplateClicked = (template: ITemplate) => {
-    setInstancesInput(removeWhitespace(template.instance));
-    setCurrentTemplate(template);
-  };
+  }, [onTemplateClicked]);
 
   return (
     <div className="instances-container">
