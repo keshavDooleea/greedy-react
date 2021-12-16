@@ -36,7 +36,7 @@ const LoadInstanceModal = ({ shouldShowStep, setShouldShowStep, setInstancesInpu
           <h3>Select a custom instance</h3>
         </div>
 
-        <div className="instances-inner-main">
+        <div className="instances-inner-main" style={{ overflowY: "auto" }}>
           <div className="templates-container">
             {TEMPLATE.map((template) => (
               <div className={`template-card ${currentTemplate?.id === template.id ? "active-card" : ""}`} key={template.id} onClick={() => onTemplateClicked(template)}>

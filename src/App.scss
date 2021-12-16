@@ -337,10 +337,12 @@ button {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
+  padding-right: 10px;
+  overflow-y: auto;
 }
 
 .template-card {
-  height: 70%;
+  height: 270px;
   border-radius: $borderRadius;
   transition: 0.15s box-shadow;
   cursor: pointer;
