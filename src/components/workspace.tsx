@@ -1,6 +1,6 @@
 import Sketch from "react-p5";
 import p5Types from "p5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { IGreedy, INodeDegree } from "../lib/interfaces";
 import { MyP5 } from "../classes/p5";
@@ -15,6 +15,7 @@ import { setGreedyHasFinished } from "../store/actions";
 const Workspace = () => {
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
+  const [p5Types, setP5Types] = useState<p5Types>();
   const greedyData: IGreedy = useSelector((state: RootStateOrAny) => state.greedyReducer);
   const outputService = OutputService.getInstance();
   const graphService = GraphService.getInstance();
@@ -22,6 +23,10 @@ const Workspace = () => {
   let greedy: Greedy;
   let hasGeneratedGraph = false;
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    p5Types?.loop();
+  }, [greedyData]);
 
   const showDegreeOutput = (degrees: INodeDegree[], maxDegreeNode: number) => {
     outputService.dispatchOutput({ text: `Coloring chosen node: #${greedyData.vertices[maxDegreeNode].nb}`, isTitle: true });
@@ -40,6 +45,7 @@ const Workspace = () => {
 
     setWidth(canvasDiv.offsetWidth);
     setHeight(canvasDiv.offsetHeight);
+    setP5Types(p5);
     p5.createCanvas(canvasDiv.offsetWidth, canvasDiv.offsetHeight).parent(canvasParentRef);
   };
 
@@ -113,12 +119,7 @@ const Workspace = () => {
       } else {
         // algorithm has finished -> end loop
         outputService.showNbOfColors(graphService.getNbOfColorsUsed(greedyData.vertices));
-        outputService.dispatchOutput({
-          text: `Refresh the page to retry again for the time being`,
-          isTitle: true,
-        });
         dispatch(setGreedyHasFinished());
-
         p5.noLoop();
       }
     }
