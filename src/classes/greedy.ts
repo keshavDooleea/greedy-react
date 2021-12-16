@@ -1,10 +1,10 @@
-import { COLORS, DSAT_COLOR, LONG_TIME_SLEEP, SELECTED_DSAT_COLOR, SELECTED_DSAT_NODE, TIME_SLEEP } from "../lib/constants";
+import { COLORS, DSAT_COLOR, LONG_TIME_SLEEP, SELECTED_DSAT_COLOR, SELECTED_DSAT_NODE } from "../lib/constants";
 import { IDsat, IEdge, IVertice } from "../lib/interfaces";
 import { GraphService } from "../services/graphService";
 import { MyP5 } from "./p5";
 import p5Types from "p5";
 import { OutputService } from "../services/outputService";
-import { sleep } from "../lib/utils";
+import { getMiddleTime, sleep } from "../lib/utils";
 import { OutputColors } from "../lib/enum";
 
 export class Greedy {
@@ -22,7 +22,7 @@ export class Greedy {
 
     // get number of colors for each neighbor
     this.outputService.showDSAT();
-    await sleep(TIME_SLEEP);
+    await sleep(getMiddleTime());
     const DSATList: IDsat[] = [];
     unvisitedNodes.forEach((unvisitedNode) => {
       const dsatValue = this.graphService.calculateDSAT(edges, vertices, unvisitedNode);
@@ -45,7 +45,7 @@ export class Greedy {
     DSATList.forEach((dsat) => {
       if (dsat.dsat === maxDsatNb) {
         maxDsatNodes.push(vertices[dsat.nodeNb]);
-        myP5.drawNodeValue(p5, vertices[dsat.nodeNb], `Highest DSAT: ${maxDsatNb}`, SELECTED_DSAT_COLOR);
+        myP5.drawNodeValue(p5, vertices[dsat.nodeNb], `Highest DSAT of ${maxDsatNb}`, SELECTED_DSAT_COLOR);
       }
     });
     const maxNodeLength = maxDsatNodes.length;

@@ -6,9 +6,9 @@ import { IGreedy, INodeDegree } from "../lib/interfaces";
 import { MyP5 } from "../classes/p5";
 import { Greedy } from "../classes/greedy";
 import { GraphService } from "../services/graphService";
-import { COLORS, LONG_TIME_SLEEP, SHORT_TIME_SLEEP, TIME_SLEEP, WHITE_COLOR } from "../lib/constants";
+import { COLORS, LONG_TIME_SLEEP, WHITE_COLOR } from "../lib/constants";
 import { OutputColors } from "../lib/enum";
-import { sleep } from "../lib/utils";
+import { getMiddleTime, getShortTime, sleep } from "../lib/utils";
 import { OutputService } from "../services/outputService";
 import { setGreedyHasFinished } from "../store/actions";
 
@@ -47,22 +47,22 @@ const Workspace = () => {
   const drawInitialGraph = async (p5: p5Types) => {
     outputService.showNbOfNodes(greedyData.vertices);
     for (let i = 0; i < greedyData.vertices.length; i++) {
-      await sleep(SHORT_TIME_SLEEP);
+      await sleep(getShortTime());
       myP5.drawVertice(p5, greedyData.vertices.length, greedyData.vertices[i]);
     }
 
     outputService.showNbOfEdges(greedyData.edges);
     for (let i = 0; i < greedyData.edges.length; i++) {
-      await sleep(SHORT_TIME_SLEEP);
+      await sleep(getShortTime());
       myP5.drawEdge(p5, greedyData.edges[i], greedyData.vertices);
     }
 
     hasGeneratedGraph = true;
     outputService.dispatchOutput({ isTitle: true, text: "Starting Greedy algorithm" });
     outputService.dispatchOutput({ isTitle: false, text: "Choosing node with highest degree to start with" });
-    await sleep(SHORT_TIME_SLEEP);
+    await sleep(getShortTime());
     myP5.drawGraph(p5, greedyData.edges, greedyData.vertices);
-    await sleep(TIME_SLEEP);
+    await sleep(getMiddleTime());
 
     p5.loop();
   };

@@ -5,7 +5,7 @@ import Modal from "./components/modal";
 import Navbar from "./components/navbar";
 import Sidebar from "./components/sidebar";
 import Workspace from "./components/workspace";
-import { INITIAL_MATRIX, TIME_SLEEP } from "./lib/constants";
+import { INITIAL_MATRIX, LONG_TIME_SLEEP } from "./lib/constants";
 import { IEdge, IVertice } from "./lib/interfaces";
 import { GraphService } from "./services/graphService";
 import { setGreedy, setGreedyHasStarted } from "./store/actions";
@@ -72,7 +72,7 @@ function App() {
 
                 <div className="instructions">
                   <p>
-                    A delay of <strong>{TIME_SLEEP}</strong>ms has been added in between the steps by default! <br />
+                    A delay of <strong>{LONG_TIME_SLEEP}</strong>ms has been added in between the steps by default! <br />
                     (in order to show the details of each step which I will add soon)
                   </p>
                 </div>
