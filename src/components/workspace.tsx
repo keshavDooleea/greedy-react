@@ -96,7 +96,6 @@ const Workspace = () => {
       if (unvisitedNodesNb > 0) {
         p5.noLoop();
         outputService.showCustom({ text: `${unvisitedNodesNb} node${unvisitedNodesNb > 1 ? "s" : ""} to color`, isTitle: true });
-        await sleep(TIME_SLEEP);
         console.count("iterations");
 
         // select next optimum node

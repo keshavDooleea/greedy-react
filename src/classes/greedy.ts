@@ -1,10 +1,11 @@
-import { COLORS, DSAT_COLOR, LONG_TIME_SLEEP, SELECTED_DSAT_COLOR, SELECTED_DSAT_NODE } from "../lib/constants";
+import { COLORS, DSAT_COLOR, LONG_TIME_SLEEP, SELECTED_DSAT_COLOR, SELECTED_DSAT_NODE, TIME_SLEEP } from "../lib/constants";
 import { IDsat, IEdge, IVertice } from "../lib/interfaces";
 import { GraphService } from "../services/graphService";
 import { MyP5 } from "./p5";
 import p5Types from "p5";
 import { OutputService } from "../services/outputService";
 import { sleep } from "../lib/utils";
+import { OutputColors } from "../lib/enum";
 
 export class Greedy {
   private graphService = GraphService.getInstance();
@@ -21,6 +22,7 @@ export class Greedy {
 
     // get number of colors for each neighbor
     this.outputService.showDSAT();
+    await sleep(TIME_SLEEP);
     const DSATList: IDsat[] = [];
     unvisitedNodes.forEach((unvisitedNode) => {
       const dsatValue = this.graphService.calculateDSAT(edges, vertices, unvisitedNode);
@@ -32,6 +34,7 @@ export class Greedy {
       myP5.drawNodeValue(p5, unvisitedNode, `DSAT: ${dsatValue}`, DSAT_COLOR);
     });
 
+    this.outputService.showCustom({ isTitle: false, text: `Calculating nodes with highest DSAT..`, color: OutputColors.black });
     await this.refreshGraph(p5, myP5, edges, vertices);
 
     // get max DSAT
@@ -48,10 +51,10 @@ export class Greedy {
     const maxNodeLength = maxDsatNodes.length;
     this.outputService.showCustom({ isTitle: false, text: `Found ${maxNodeLength} node${maxNodeLength > 1 ? "s" : ""} with highest DSAT of ${maxDsatNb}`, color: SELECTED_DSAT_COLOR });
 
+    this.outputService.showCustom({ isTitle: false, text: "Choosing node with highest degree & DSAT.." });
     await this.refreshGraph(p5, myP5, edges, vertices);
 
     // find the DSAT with highest node degree -> our next node
-    this.outputService.showCustom({ isTitle: false, text: "Choosing node with highest degree and highest DSAT" });
     const dsatNodeDegrees = this.graphService.getNodesDegree(edges, maxDsatNodes);
     const maxDsatNode = this.graphService.getMaxDegreeNode(dsatNodeDegrees);
     myP5.drawNodeValue(p5, vertices[maxDsatNode], "Selected node", SELECTED_DSAT_NODE);
