@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ITemplate } from "../../lib/interfaces";
 import { TEMPLATE } from "../../lib/template";
 import { removeWhitespace } from "../../lib/utils";
+import { LoadInstanceService } from "../../services/loadInstanceService";
 import Settings from "../settings";
 
 interface ILoadInstanceModal {
@@ -15,16 +16,22 @@ interface ILoadInstanceModal {
 
 const LoadInstanceModal = ({ shouldShowStep, setShouldShowStep, setInstancesInput, readInstances }: ILoadInstanceModal) => {
   const [currentTemplate, setCurrentTemplate] = useState<ITemplate>();
+  const loadInstanceService = LoadInstanceService.getInstance();
 
   // set first template by default
   useEffect(() => {
-    onTemplateClicked(TEMPLATE[0]);
+    onTemplateClicked(loadInstanceService.getCurrentTemplate());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onTemplateClicked = (template: ITemplate) => {
     setInstancesInput(removeWhitespace(template.instance));
     setCurrentTemplate(template);
+  };
+
+  const onExecuteClicked = () => {
+    loadInstanceService.setCurrentTemplate(currentTemplate!);
+    readInstances();
   };
 
   return (
@@ -58,7 +65,7 @@ const LoadInstanceModal = ({ shouldShowStep, setShouldShowStep, setInstancesInpu
           </div>
         </div>
 
-        <button className="c-r custom-btn" onClick={readInstances} disabled={!currentTemplate}>
+        <button className="c-r custom-btn" onClick={onExecuteClicked} disabled={!currentTemplate}>
           Execute
         </button>
       </div>
