@@ -161,19 +161,19 @@ main {
   position: relative;
 }
 
-.canvas-action {
+.canvas-counter {
   position: absolute;
   top: 8px;
   right: -50%;
-  font-size: 2rem;
-  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
-  color: $textColor;
-  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   transition: 0.5s right;
-  display: none;
+  background-color: $textColor;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
 
-  &.show-action {
-    right: 18px;
+  &.show-counter {
+    right: 15px;
   }
 }
 
