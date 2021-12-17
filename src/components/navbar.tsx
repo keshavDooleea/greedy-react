@@ -2,6 +2,7 @@ import { faPlusSquare, faProjectDiagram, faInfoCircle, faHandPointer } from "@fo
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dispatch, SetStateAction } from "react";
 import { RootStateOrAny, useSelector } from "react-redux";
+import { APP_NAME } from "../lib/constants";
 
 interface INavbarProps {
   setCreateInstanceModal: Dispatch<SetStateAction<boolean>>;
@@ -16,7 +17,7 @@ const Navbar = ({ setCreateInstanceModal, setOpenInfoModal, setLoadInstanceModal
     <div className="navbar">
       <div className="flex logo">
         <FontAwesomeIcon icon={faProjectDiagram} className="m-r-2" />
-        <h3>Greedy Algorithm Visualization</h3>
+        <h3>{APP_NAME}</h3>
       </div>
       <div className="navbar-options">
         <button onClick={() => setCreateInstanceModal(true)} disabled={isGreedyCompleted}>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import "./App.scss";
+import Mobile from "./components/mobile";
 import Modal from "./components/modal";
 import CreateInstanceModal from "./components/modals/createInstanceModal";
 import InfoModal from "./components/modals/infoModal";
@@ -50,6 +51,8 @@ function App() {
         <Workspace />
       </main>
       <Sidebar />
+
+      <Mobile />
 
       {createInstanceModal && (
         <Modal setOpenModal={setCreateInstanceModal}>

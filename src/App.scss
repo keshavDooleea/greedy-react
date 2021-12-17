@@ -408,3 +408,48 @@ button {
     }
   }
 }
+
+.mobile {
+  width: 100vw;
+  height: 100vh;
+  background-color: $secondaryBkg;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .mobile-logo,
+  .mobile-me {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .mobile-logo {
+    top: 20px;
+    width: 4rem;
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.1));
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+
+  .mobile-me {
+    bottom: 20px;
+  }
+
+  .mobile-icon {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 700px) {
+  .mobile {
+    display: none;
+  }
+}
