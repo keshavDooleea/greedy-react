@@ -6,7 +6,7 @@ import { IGreedy, INodeDegree } from "../lib/interfaces";
 import { MyP5 } from "../classes/p5";
 import { Greedy } from "../classes/greedy";
 import { GraphService } from "../services/graphService";
-import { COLORS, WHITE_COLOR } from "../lib/constants";
+import { COLORS, ONE_SECOND, WHITE_COLOR } from "../lib/constants";
 import { OutputColors } from "../lib/enum";
 import { sleep } from "../lib/utils";
 import { OutputService } from "../services/outputService";
@@ -18,6 +18,7 @@ const Workspace = () => {
   const [height, setHeight] = useState<number>(0);
   const [p5Types, setP5Types] = useState<p5Types>();
   const [hasGeneratedGraph, setHasGeneratedGraph] = useState<boolean>(false);
+  const [showCountdown, setShowCountdown] = useState<boolean>(false);
   const greedyData: IGreedy = useSelector((state: RootStateOrAny) => state.greedyReducer);
   const outputService = OutputService.getInstance();
   const graphService = GraphService.getInstance();
@@ -25,12 +26,27 @@ const Workspace = () => {
   const dispatch = useDispatch();
   let myP5: MyP5;
   let greedy: Greedy;
+  const [countdownTime, setCountdownTime] = useState<number>(0);
 
   // restart drawing
   useEffect(() => {
     p5Types?.loop();
     p5Types?.background(255);
+
+    if (greedyData.vertices) {
+      setCountdownTime(settingsService.calculateInitialCountdownTime());
+    }
   }, [greedyData, p5Types]);
+
+  // countdown timer
+  useEffect(() => {
+    const countdown = () => setCountdownTime((previousCountdown) => previousCountdown - 1);
+    const interval = setInterval(countdown, ONE_SECOND);
+    const cancelCountdown = () => clearInterval(interval);
+
+    if (!showCountdown) cancelCountdown();
+    return () => cancelCountdown();
+  }, [showCountdown]);
 
   const showDegreeOutput = (degrees: INodeDegree[], maxDegreeNode: number) => {
     outputService.dispatchOutput({ text: `Coloring chosen node: #${greedyData.vertices[maxDegreeNode].nb}`, isTitle: true });
@@ -57,22 +73,22 @@ const Workspace = () => {
   const drawInitialGraph = async (p5: p5Types) => {
     outputService.showNbOfNodes(greedyData.vertices);
     for (let i = 0; i < greedyData.vertices.length; i++) {
-      await sleep(settingsService.getShortTime());
+      await sleep(settingsService.getTimeMs());
       myP5.drawVertice(p5, greedyData.vertices.length, greedyData.vertices[i]);
     }
 
     outputService.showNbOfEdges(greedyData.edges);
     for (let i = 0; i < greedyData.edges.length; i++) {
-      await sleep(settingsService.getShortTime());
+      await sleep(settingsService.getTimeMs());
       myP5.drawEdge(p5, greedyData.edges[i], greedyData.vertices);
     }
 
     setHasGeneratedGraph(true);
     outputService.dispatchOutput({ isTitle: true, text: "Starting Greedy algorithm" });
     outputService.dispatchOutput({ isTitle: false, text: "Choosing node with highest degree to start with" });
-    await sleep(settingsService.getShortTime());
+    await sleep(settingsService.getTimeMs());
     myP5.drawGraph(p5, greedyData.edges, greedyData.vertices);
-    await sleep(settingsService.getMiddleTime());
+    await sleep(settingsService.getTimeMs());
 
     p5.loop();
   };
@@ -83,8 +99,9 @@ const Workspace = () => {
     if (greedyData.vertices != null) {
       if (!greedy) greedy = new Greedy();
 
-      // generate initial graph with delay
+      // generate initial graph with delay - executed only once
       if (!hasGeneratedGraph) {
+        setShowCountdown(true);
         outputService.dispatchOutput({ isTitle: true, text: "Generating graph" });
         drawInitialGraph(p5);
         p5.noLoop();
@@ -112,7 +129,7 @@ const Workspace = () => {
 
         // select next optimum node
         const nextNode = await greedy.greedyChoice(p5, myP5, greedyData.edges, greedyData.vertices);
-        await sleep(settingsService.getTimeDelay());
+        await sleep(settingsService.getTimeMs());
         const smallestColorIndex = await greedy.findSmallestColorIndex(greedyData.edges, greedyData.vertices, nextNode);
 
         // update next node's color to smallest possible color
@@ -125,7 +142,8 @@ const Workspace = () => {
         outputService.showNbOfColors(graphService.getNbOfColorsUsed(greedyData.vertices));
         dispatch(setGreedyHasFinished());
         p5.noLoop();
-        setTimeout(() => setHasGeneratedGraph(false), 1000);
+        setHasGeneratedGraph(false);
+        setTimeout(() => setShowCountdown(false), ONE_SECOND);
       }
     }
   };
@@ -134,7 +152,9 @@ const Workspace = () => {
     <div className="workspace">
       <Sketch setup={setup} draw={draw} />
 
-      <div className={`canvas-counter ${hasGeneratedGraph ? "show-counter" : ""}`}></div>
+      <div className={`canvas-counter ${showCountdown ? "show-counter" : ""}`}>
+        <p>{countdownTime}</p>
+      </div>
     </div>
   );
 };

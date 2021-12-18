@@ -15,7 +15,7 @@ export class Greedy {
 
   // wait and remove text nodes
   refreshGraph = async (p5: p5Types, myP5: MyP5, edges: IEdge[], vertices: IVertice[]) => {
-    await sleep(this.settingsService.getTimeDelay() * 2);
+    await sleep(this.settingsService.getTimeMs());
     myP5.drawGraph(p5, edges, vertices);
   };
 
@@ -24,7 +24,7 @@ export class Greedy {
 
     // get number of colors for each neighbor
     this.outputService.showDSAT();
-    await sleep(this.settingsService.getMiddleTime());
+    await sleep(this.settingsService.getTimeMs());
     const DSATList: IDsat[] = [];
     unvisitedNodes.forEach((unvisitedNode) => {
       const dsatValue = this.graphService.calculateDSAT(edges, vertices, unvisitedNode);
