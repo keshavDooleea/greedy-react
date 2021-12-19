@@ -29,7 +29,7 @@ const CreateInstanceModal = ({ shouldShowStep, setShouldShowStep, setInstancesIn
         <div className="instances-inner-main">
           <textarea
             className="default-text"
-            placeholder="Enter an Adjacency matrix (filled with 0 and 1)"
+            placeholder="Enter an Adjacency Matrix (filled with 0 and 1)"
             defaultValue={(graphService.getGraphInput() as string) || removeWhitespace(INITIAL_MATRIX)}
             onChange={(e) => {
               setInstancesInput(removeWhitespace(e.target.value));
