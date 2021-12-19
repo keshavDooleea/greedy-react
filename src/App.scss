@@ -13,6 +13,8 @@ $borderRadius: 8px;
 $border: 1px solid #ccc;
 $textColor: #9b97b5;
 $secondaryBkg: #f0f1f6;
+$redColor: #ed4956;
+$workspaceItemSize: 35px;
 
 body {
   width: 100vw;
@@ -161,28 +163,63 @@ main {
   position: relative;
 }
 
-.canvas-counter {
+.workspace-actions {
   position: absolute;
-  top: 8px;
-  right: -50%;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-  transition: 0.5s right;
-  background-color: $textColor;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  justify-content: center;
-  display: none;
+  top: 0;
+  right: 18px;
+  width: $workspaceItemSize;
+  height: $workspaceItemSize;
 
-  p {
-    line-height: 35px;
-    color: white;
-    font-weight: bold;
-  }
+  .workspace-action-item {
+    height: 100%;
+    width: 100%;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s transform cubic-bezier(0.64, -0.16, 0.36, 1.56);
+    transform: translateX(300%);
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 
-  &.show-counter {
-    right: 15px;
+    &.show-workspace-item {
+      transform: translateX(0);
+    }
+
+    &.canvas-counter {
+      background-color: $textColor;
+      color: $textColor;
+
+      p {
+        line-height: $workspaceItemSize;
+        color: white;
+        font-weight: bold;
+      }
+    }
+
+    &.canvas-stopper {
+      color: $redColor;
+      cursor: pointer;
+      border: 1px solid $redColor;
+      transition-delay: 0.15s;
+
+      .stop-square {
+        width: calc(#{$workspaceItemSize} / 2.8);
+        height: calc(#{$workspaceItemSize} / 2.8);
+        background-color: $redColor;
+        border-radius: 1px;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+        transition: 0.2s background-color;
+      }
+
+      &:hover {
+        background-color: $redColor;
+
+        .stop-square {
+          background-color: white;
+        }
+      }
+    }
   }
 }
 

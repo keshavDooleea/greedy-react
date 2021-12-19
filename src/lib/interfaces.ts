@@ -13,6 +13,7 @@ export interface IVertice {
 export interface IGreedy {
   vertices: IVertice[];
   edges: IEdge[];
+  shouldStop: boolean;
 }
 
 export interface INodeDegree {

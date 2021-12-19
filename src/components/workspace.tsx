@@ -72,16 +72,20 @@ const Workspace = () => {
   // draw nodes and edges with animation
   const drawInitialGraph = async (p5: p5Types) => {
     outputService.showNbOfNodes(greedyData.vertices);
-    for (let i = 0; i < greedyData.vertices.length; i++) {
+    for (let i = 0; i < greedyData.vertices.length && !greedyData.shouldStop; i++) {
       await sleep(settingsService.getTimeMs());
       myP5.drawVertice(p5, greedyData.vertices.length, greedyData.vertices[i]);
     }
 
+    if (greedyData.shouldStop) return;
+
     outputService.showNbOfEdges(greedyData.edges);
-    for (let i = 0; i < greedyData.edges.length; i++) {
+    for (let i = 0; i < greedyData.edges.length && !greedyData.shouldStop; i++) {
       await sleep(settingsService.getTimeMs());
       myP5.drawEdge(p5, greedyData.edges[i], greedyData.vertices);
     }
+
+    if (greedyData.shouldStop) return;
 
     setHasGeneratedGraph(true);
     outputService.dispatchOutput({ isTitle: true, text: "Starting Greedy algorithm" });
@@ -95,65 +99,81 @@ const Workspace = () => {
 
   const draw = async (p5: p5Types) => {
     if (!myP5) myP5 = new MyP5(width, height);
+    if (!greedy) greedy = new Greedy();
 
-    if (greedyData.vertices != null) {
-      if (!greedy) greedy = new Greedy();
+    if (!greedyData.vertices || greedyData.shouldStop) return;
 
-      // generate initial graph with delay - executed only once
-      if (!hasGeneratedGraph) {
-        setShowCountdown(true);
-        outputService.dispatchOutput({ isTitle: true, text: "Generating graph" });
-        drawInitialGraph(p5);
-        p5.noLoop();
-        return;
-      }
-
-      myP5.drawGraph(p5, greedyData.edges, greedyData.vertices);
-
-      // get first/starting node with highest degree
-      const degrees = graphService.getNodesDegree(greedyData.edges, greedyData.vertices);
-      const maxDegreeNode = graphService.getMaxDegreeNode(degrees);
-
-      if (greedyData.vertices[maxDegreeNode].color === WHITE_COLOR) {
-        showDegreeOutput(degrees, maxDegreeNode);
-        greedyData.vertices[maxDegreeNode].color = COLORS[0];
-        myP5.drawGraph(p5, greedyData.edges, greedyData.vertices);
-      }
-
-      // keep checkin if a node with no color (white color) exists -> means some node hasn't got a number yet
-      const unvisitedNodesNb = graphService.getUnvisitedNodes(greedyData.vertices).length;
-      if (unvisitedNodesNb > 0) {
-        p5.noLoop();
-        outputService.showCustom({ text: `${unvisitedNodesNb} node${unvisitedNodesNb > 1 ? "s" : ""} to color`, isTitle: true });
-        // console.count("iterations");
-
-        // select next optimum node
-        const nextNode = await greedy.greedyChoice(p5, myP5, greedyData.edges, greedyData.vertices);
-        await sleep(settingsService.getTimeMs());
-        const smallestColorIndex = await greedy.findSmallestColorIndex(greedyData.edges, greedyData.vertices, nextNode);
-
-        // update next node's color to smallest possible color
-        if (greedyData.vertices[nextNode] && greedyData.vertices[nextNode].color === WHITE_COLOR) {
-          greedyData.vertices[nextNode].color = COLORS[smallestColorIndex];
-          p5.loop();
-        }
-      } else {
-        // algorithm has finished -> end loop
-        outputService.showNbOfColors(graphService.getNbOfColorsUsed(greedyData.vertices));
-        dispatch(setGreedyHasFinished());
-        p5.noLoop();
-        setHasGeneratedGraph(false);
-        setTimeout(() => setShowCountdown(false), ONE_SECOND);
-      }
+    // generate initial graph with delay - executed only once
+    if (!hasGeneratedGraph) {
+      setShowCountdown(true);
+      outputService.dispatchOutput({ isTitle: true, text: "Generating graph" });
+      drawInitialGraph(p5);
+      p5.noLoop();
+      return;
     }
+
+    myP5.drawGraph(p5, greedyData.edges, greedyData.vertices);
+
+    // get first/starting node with highest degree
+    const degrees = graphService.getNodesDegree(greedyData.edges, greedyData.vertices);
+    const maxDegreeNode = graphService.getMaxDegreeNode(degrees);
+
+    if (greedyData.vertices[maxDegreeNode].color === WHITE_COLOR) {
+      showDegreeOutput(degrees, maxDegreeNode);
+      greedyData.vertices[maxDegreeNode].color = COLORS[0];
+      myP5.drawGraph(p5, greedyData.edges, greedyData.vertices);
+    }
+
+    // keep checkin if a node with no color (white color) exists -> means some node hasn't got a number yet
+    const unvisitedNodesNb = graphService.getUnvisitedNodes(greedyData.vertices).length;
+    if (unvisitedNodesNb > 0) {
+      p5.noLoop();
+      outputService.showCustom({ text: `${unvisitedNodesNb} node${unvisitedNodesNb > 1 ? "s" : ""} to color`, isTitle: true });
+      // console.count("iterations");
+
+      // select next optimum node
+      const nextNode = await greedy.greedyChoice(p5, myP5, greedyData.edges, greedyData.vertices);
+      await sleep(settingsService.getTimeMs());
+      const smallestColorIndex = await greedy.findSmallestColorIndex(greedyData.edges, greedyData.vertices, nextNode);
+
+      // update next node's color to smallest possible color
+      if (greedyData.vertices[nextNode] && greedyData.vertices[nextNode].color === WHITE_COLOR) {
+        greedyData.vertices[nextNode].color = COLORS[smallestColorIndex];
+        p5.loop();
+      }
+    } else {
+      // algorithm has finished -> end loop
+      outputService.showNbOfColors(graphService.getNbOfColorsUsed(greedyData.vertices));
+      resetInfos(p5);
+      setTimeout(() => setShowCountdown(false), ONE_SECOND);
+    }
+  };
+
+  const resetInfos = (p5: p5Types) => {
+    dispatch(setGreedyHasFinished());
+    p5.noLoop();
+    setHasGeneratedGraph(false);
+  };
+
+  const stopDraw = () => {
+    greedyData.shouldStop = true;
+    setShowCountdown(false);
+    resetInfos(p5Types!);
+    outputService.showStopDraw();
   };
 
   return (
     <div className="workspace">
       <Sketch setup={setup} draw={draw} />
 
-      <div className={`canvas-counter ${showCountdown ? "show-counter" : ""}`}>
-        <p>{countdownTime}</p>
+      <div className="workspace-actions">
+        <div className={`canvas-counter workspace-action-item ${showCountdown ? "show-workspace-item" : ""}`}>
+          <p>{countdownTime}</p>
+        </div>
+
+        <div className={`canvas-stopper workspace-action-item ${showCountdown ? "show-workspace-item" : ""}`} onClick={stopDraw}>
+          <div className="stop-square"></div>
+        </div>
       </div>
     </div>
   );

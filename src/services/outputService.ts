@@ -31,6 +31,7 @@ export class OutputService {
   };
 
   showDSAT = () => this.dispatchOutput({ isTitle: false, text: `Calculating DSAT values of remaining nodes`, color: DSAT_COLOR });
+  showStopDraw = () => this.dispatchOutput({ isTitle: true, text: "Stopping before next iteration" });
 
   showIsPaused = (isPaused: boolean) => {
     const text = isPaused ? "Pausing before next iteration" : "Resuming algorithm";

@@ -37,7 +37,7 @@ function App() {
     const vertices: IVertice[] = graphService.getVertices();
     const edges: IEdge[] = graphService.getEdges();
 
-    dispatch(setGreedy({ vertices, edges }));
+    dispatch(setGreedy({ vertices, edges, shouldStop: false }));
     dispatch(setGreedyHasStarted());
 
     settingsService.setNbNodes(vertices.length);
