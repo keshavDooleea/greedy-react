@@ -36,7 +36,7 @@ const Workspace = () => {
     if (greedyData.vertices) {
       setCountdownTime(settingsService.calculateInitialCountdownTime());
     }
-  }, [greedyData, p5Types]);
+  }, [greedyData, p5Types, settingsService]);
 
   // countdown timer
   useEffect(() => {
