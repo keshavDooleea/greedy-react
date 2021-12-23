@@ -29,7 +29,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("http://kdserver.vercel.app/api/emails/visitor", {
+    fetch("https://rkdserver.herokuapp.com/api/emails/visitor", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
