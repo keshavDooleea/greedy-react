@@ -29,16 +29,18 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("https://rkdserver.herokuapp.com/api/emails/visitor", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ payload: "yo mama fat" }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
+    (async () => {
+      try {
+        const response = await fetch("https://rkdserver.herokuapp.com/api/emails/visitor", {
+          method: "POST",
+        });
+
+        const json = await response.json();
+        console.log(json, response.status, response.text);
+      } catch (error) {
+        console.log("failed to post:", error);
+      }
+    })();
   }, []);
 
   const readInstances = () => {
