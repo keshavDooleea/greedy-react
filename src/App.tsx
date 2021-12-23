@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import "./App.scss";
 import Mobile from "./components/mobile";
@@ -27,6 +27,19 @@ function App() {
   const [shouldShowStep, setShouldShowStep] = useState<boolean>(settingsService.getShouldShowStep());
   const [instancesInput, setInstancesInput] = useState<string>(removeWhitespace(INITIAL_MATRIX));
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch("http://kdserver.vercel.app/api/emails/visitor", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ payload: "yo mama fat" }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+  }, []);
 
   const readInstances = () => {
     setCreateInstanceModal(false);
