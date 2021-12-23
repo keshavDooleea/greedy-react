@@ -31,14 +31,11 @@ function App() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch("https://rkdserver.herokuapp.com/api/emails/visitor", {
+        await fetch("https://rkdserver.herokuapp.com/api/emails/visitor", {
           method: "POST",
         });
-
-        const json = await response.json();
-        console.log(json, response.status, response.text);
       } catch (error) {
-        console.log("failed to post:", error);
+        console.log("Failed to post:", error);
       }
     })();
   }, []);
