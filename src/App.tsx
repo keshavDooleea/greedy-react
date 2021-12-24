@@ -53,6 +53,7 @@ function App() {
     dispatch(setGreedyHasStarted());
 
     settingsService.setNbNodes(vertices.length);
+    settingsService.setNbEdges(edges.length);
     settingsService.setShouldShowStep(shouldShowStep);
   };
 
