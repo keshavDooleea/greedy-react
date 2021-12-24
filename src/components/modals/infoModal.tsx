@@ -1,14 +1,37 @@
+import { faInfoCircle, faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const InfoModal = () => {
   return (
-    <>
-      <h2>Information on this Website</h2>
+    <div className="instances-container">
+      <div className="settings">
+        <div className="flex common-header">
+          <FontAwesomeIcon icon={faInfoCircle} className="m-r" />
+          <h3>Information on this website</h3>
+        </div>
 
-      <div className="middle">
-        <p>This visualization was made on React JS (with TypeScript) using the library P5.js and Redux Store on the 15th of December 2021</p>
-
-        <p>explain Greedy..</p>
+        <div className="info-side-main">
+          <div className="info-tech"></div>
+          <div className="info-me">
+            <h4>Made by Reetesh. K. Dooleea</h4>
+            <p>15th - 18th December 2021</p>
+          </div>
+        </div>
       </div>
-    </>
+
+      <div className="instances-main">
+        <div className="flex common-header">
+          <FontAwesomeIcon icon={faProjectDiagram} className="m-r-2" />
+          <h3>About Greedy Optimization Algorithm</h3>
+        </div>
+
+        <div className="instances-inner-main">
+          <div className="info-greedy-main">
+            <p>hello</p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
