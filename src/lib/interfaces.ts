@@ -44,3 +44,9 @@ export interface ITemplate {
   nbColors: number;
   instance: string;
 }
+
+export interface ILibrary {
+  name: string;
+  imgSrc: string;
+  applyCss: boolean;
+}

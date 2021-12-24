@@ -1,5 +1,6 @@
 import { faInfoCircle, faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LIBRARIES_USED } from "../../lib/libraries";
 
 const InfoModal = () => {
   return (
@@ -11,7 +12,27 @@ const InfoModal = () => {
         </div>
 
         <div className="info-side-main">
-          <div className="info-tech"></div>
+          <div className="info-tech">
+            <div className="react-card">
+              <div className="react-logo flex">
+                <img src="react-icon.png" alt="react icon" />
+              </div>
+              <div className="react-card-framework">
+                <h4>Framework</h4>
+                <p>React.js</p>
+              </div>
+            </div>
+            <div className="react-card-libraries">
+              <h4>Libraries</h4>
+
+              {LIBRARIES_USED.map((library, index) => (
+                <div className="library-item" key={index}>
+                  <img src={library.imgSrc} alt={`${library.name} library icon`} className={`m-r ${library.applyCss ? "show-css" : ""}`} />
+                  <p>{library.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
           <div className="info-me">
             <h4>Made by Reetesh. K. Dooleea</h4>
             <p>15th - 18th December 2021</p>

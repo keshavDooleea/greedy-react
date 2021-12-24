@@ -516,9 +516,74 @@ button {
 
   .info-tech {
     width: 100%;
-    // background-color: red;
     flex: 1;
     padding: 10px 0;
+    overflow-y: auto;
+
+    $reactLogoHeight: 35px;
+    $cardBackground: whitesmoke;
+    $cardBoxShadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+    .react-card {
+      width: 85%;
+      box-shadow: $cardBoxShadow;
+      background-color: $cardBackground;
+      margin: 0 auto;
+      position: relative;
+      margin-top: calc(#{$reactLogoHeight} / 2);
+      border-radius: $borderRadius;
+      border-top: 2px solid $textColor;
+      display: flex;
+      flex-direction: column;
+      padding: 4px 7px;
+
+      .react-logo {
+        position: absolute;
+        width: $reactLogoHeight;
+        height: $reactLogoHeight;
+        left: 50%;
+        top: calc(-1 * (#{$reactLogoHeight} / 2));
+        transform: translateX(-50%);
+        background-color: white;
+        border-radius: 50%;
+        border: 1px solid #61dbfb;
+        box-shadow: 0 0 2.5px rgba(0, 0, 0, 0.2);
+
+        img {
+          height: calc(#{$reactLogoHeight} * 0.85);
+        }
+      }
+
+      .react-card-framework {
+        width: 100%;
+        margin-top: calc(#{$reactLogoHeight} / 2);
+      }
+    }
+
+    .react-card-libraries {
+      width: 78%;
+      margin: 0 auto;
+      box-shadow: $cardBoxShadow;
+      background-color: $cardBackground;
+      border-radius: 0 0 $borderRadius $borderRadius;
+      padding: 15px 7px;
+
+      .library-item {
+        width: 100%;
+        display: flex;
+        margin-top: 12px;
+
+        img {
+          height: 25px;
+
+          &.show-css {
+            border-radius: 3px;
+            background-color: white;
+            box-shadow: 0 0 2.5px rgba(0, 0, 0, 0.2);
+          }
+        }
+      }
+    }
   }
 
   .info-me {
