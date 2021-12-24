@@ -7,6 +7,7 @@
   font-family: "Oswald", sans-serif;
 }
 
+// variables used
 $sidebar: 250px;
 $navbarHeight: 9vh;
 $borderRadius: 8px;
@@ -23,6 +24,7 @@ body {
   overflow: hidden;
 }
 
+// utility classes
 .c-r {
   border-radius: 8px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
@@ -81,6 +83,17 @@ body {
   }
 }
 
+// animations
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+// components styles
 .App {
   width: 100vw;
   height: 100vh;
@@ -598,6 +611,7 @@ button {
 
     .round-img-div {
       border: $border;
+      animation: rotate 1.5s infinite cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
       img {
         width: calc(#{$roundImgSize} * 0.7);
