@@ -201,6 +201,18 @@ main {
   align-items: center;
   justify-content: center;
   position: relative;
+
+  .starting-info {
+    font-size: 1.2rem;
+
+    :not(.kgreedy-workspace) {
+      text-shadow: 0 0 2px rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  &:hover .kgreedy-workspace {
+    opacity: 0;
+  }
 }
 
 .workspace-actions {
@@ -261,6 +273,14 @@ main {
       }
     }
   }
+}
+
+.kgreedy-workspace {
+  font-size: 11rem;
+  color: rgba($color: $secondaryBkg, $alpha: 0.4);
+  z-index: -1;
+  opacity: 1;
+  transition: 0.3s opacity ease-out;
 }
 
 button {

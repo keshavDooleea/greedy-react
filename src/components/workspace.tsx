@@ -168,6 +168,7 @@ const Workspace = () => {
 
       {!greedyData.vertices && !greedyData.edges && (
         <div className="pos-abs-middle starting-info">
+          <h3 className="kgreedy-workspace pos-abs-middle">KGREEDY</h3>
           <p>This is the workspace's canvas</p>
           <small>Start by creating or selecting an instance from the menu options above</small>
         </div>
