@@ -166,6 +166,13 @@ const Workspace = () => {
     <div className="workspace">
       <Sketch setup={setup} draw={draw} />
 
+      {!greedyData.vertices && !greedyData.edges && (
+        <div className="pos-abs-middle starting-info">
+          <p>This is the workspace's canvas</p>
+          <small>Start by creating or selecting an instance from the menu options above</small>
+        </div>
+      )}
+
       <div className="workspace-actions">
         <div className={`canvas-counter workspace-action-item ${showCountdown ? "show-workspace-item" : ""}`}>
           <p>{countdownTime}</p>

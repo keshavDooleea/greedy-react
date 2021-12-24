@@ -21,6 +21,8 @@ const Sidebar = () => {
           <div key={index}>{output.isTitle ? <h4 className="output-mt">{output.text}</h4> : <p style={{ color: output.color === null ? OutputColors.black : output.color }}>{output.text}</p>}</div>
         ))}
       </div>
+
+      {outputs.length === 0 && <p className="pos-abs-middle starting-info">Informations during algorithms execution will appear here</p>}
     </div>
   );
 };

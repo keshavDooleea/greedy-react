@@ -56,6 +56,18 @@ body {
   color: gray;
 }
 
+.pos-abs-middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.starting-info {
+  width: 90%;
+  text-align: center;
+}
+
 .App {
   width: 100vw;
   height: 100vh;
@@ -134,6 +146,7 @@ main {
   background-color: $secondaryBkg;
   border-left: $border;
   z-index: 2;
+  position: relative;
 
   .output-container {
     width: 100%;
