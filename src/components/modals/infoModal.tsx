@@ -14,7 +14,7 @@ const InfoModal = () => {
         <div className="info-side-main">
           <div className="info-tech">
             <div className="react-card">
-              <div className="react-logo flex">
+              <div className="react-logo round-img-div flex">
                 <img src="react-icon.png" alt="react icon" />
               </div>
               <div className="react-card-framework">
@@ -34,8 +34,13 @@ const InfoModal = () => {
             </div>
           </div>
           <div className="info-me">
-            <h4>Made by Reetesh. K. Dooleea</h4>
-            <p>15th - 18th December 2021</p>
+            <div className="round-img-div flex m-r-2">
+              <img src="RKD_logo.svg" alt="my initials logo" />
+            </div>
+            <div className="info-me-details">
+              <h4>Made by Reetesh. K. Dooleea</h4>
+              <p>15th - 18th December 2021</p>
+            </div>
           </div>
         </div>
       </div>

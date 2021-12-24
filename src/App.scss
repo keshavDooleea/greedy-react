@@ -15,6 +15,7 @@ $textColor: #9b97b5;
 $secondaryBkg: #f0f1f6;
 $redColor: #ed4956;
 $workspaceItemSize: 35px;
+$roundImgSize: 35px;
 
 body {
   width: 100vw;
@@ -66,6 +67,18 @@ body {
 .starting-info {
   width: 90%;
   text-align: center;
+}
+
+.round-img-div {
+  width: $roundImgSize;
+  height: $roundImgSize;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 2.5px rgba(0, 0, 0, 0.2);
+
+  img {
+    height: calc(#{$roundImgSize} * 0.85);
+  }
 }
 
 .App {
@@ -520,7 +533,6 @@ button {
     padding: 10px 0;
     overflow-y: auto;
 
-    $reactLogoHeight: 35px;
     $cardBackground: whitesmoke;
     $cardBoxShadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
@@ -530,7 +542,7 @@ button {
       background-color: $cardBackground;
       margin: 0 auto;
       position: relative;
-      margin-top: calc(#{$reactLogoHeight} / 2);
+      margin-top: calc(#{$roundImgSize} / 2);
       border-radius: $borderRadius;
       border-top: 2px solid $textColor;
       display: flex;
@@ -539,24 +551,15 @@ button {
 
       .react-logo {
         position: absolute;
-        width: $reactLogoHeight;
-        height: $reactLogoHeight;
         left: 50%;
-        top: calc(-1 * (#{$reactLogoHeight} / 2));
+        top: calc(-1 * (#{$roundImgSize} / 2));
         transform: translateX(-50%);
-        background-color: white;
-        border-radius: 50%;
         border: 1px solid #61dbfb;
-        box-shadow: 0 0 2.5px rgba(0, 0, 0, 0.2);
-
-        img {
-          height: calc(#{$reactLogoHeight} * 0.85);
-        }
       }
 
       .react-card-framework {
         width: 100%;
-        margin-top: calc(#{$reactLogoHeight} / 2);
+        margin-top: calc(#{$roundImgSize} / 2);
       }
     }
 
@@ -587,8 +590,24 @@ button {
   }
 
   .info-me {
-    width: 100%;
-    text-align: center;
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0 auto;
+
+    .round-img-div {
+      border: $border;
+
+      img {
+        width: calc(#{$roundImgSize} * 0.7);
+      }
+    }
+
+    .info-me-details {
+      height: 100%;
+      text-align: center;
+    }
   }
 }
 

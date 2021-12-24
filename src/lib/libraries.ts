@@ -17,7 +17,7 @@ export const LIBRARIES_USED: ILibrary[] = [
     applyCss: true,
   },
   {
-    name: "Sass",
+    name: "Scss",
     imgSrc: "sass_icon.png",
     applyCss: false,
   },
