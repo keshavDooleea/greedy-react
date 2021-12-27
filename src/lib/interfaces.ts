@@ -50,3 +50,8 @@ export interface ILibrary {
   imgSrc: string;
   applyCss: boolean;
 }
+
+export interface IGuideCombination {
+  showInfo: boolean;
+  delay: number;
+}
